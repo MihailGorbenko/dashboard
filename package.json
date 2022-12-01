@@ -1,0 +1,19 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "an bootstrap application",
+  "main": "index.html",
+  "scripts": {
+    "styles:w": "sass styles/scss/base.scss styles/dist/styles.css --watch --load-path=node_modules/bootstrap/scss/"
+
+  },
+  "author": "Miha Go",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.2"
+  },
+  "devDependencies": {
+    "sass": "^1.56.1"
+  }
+}
