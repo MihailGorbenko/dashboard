@@ -1,19 +1,39 @@
 {
   "name": "dashboard",
   "version": "1.0.0",
-  "description": "an bootstrap application",
-  "main": "index.html",
+  "description": "dashboard app",
+  "main": "app.js",
   "scripts": {
-    "styles:w": "sass styles/scss/base.scss styles/dist/styles.css --watch --load-path=node_modules/bootstrap/scss/"
-
+    "sass:w": "sass client/styles/scss/base.scss client/styles/css/styles.css --watch --load-path=node_modules/bootstrap/scss/",
+    "sass:comp": "sass client/styles/scss/base.scss client/styles/css/styles.css --load-path=node_modules/bootstrap/scss/",
+    "server:dev": "nodemon app.js",
+    "minify:css": "css-minify --file client/styles/css/styles.css -o client/styles/dist",
+    "purge:css": "purgecss -v -font -keyframes --css client/styles/css/styles.css --content client/index.dev.html client/js/*.js --output client/styles/css/",
+    "minify:html": "html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true client/index.dev.html > client/index.html",
+    "autoprefix": "npx postcss client/styles/css/styles.css  --use autoprefixer -d client/styles/css/",
+    "pre:deploy": "run-s sass:comp purge:css autoprefix minify:css minify:html ",
+    "server": "export NODE_ENV=production && sudo -E \"$(which node)\" app.js ",
+    "sync:aws": "rsync -rvP -e ssh --exclude=node_modules --exclude=.git ./ ubuntu@3.67.197.225:/home/ubuntu/dashboard"
   },
   "author": "Miha Go",
+  "homepage": "https://github.com/MihailGorbenko/dashboard.git",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^5.2.3",
-    "bootstrap-icons": "^1.10.2"
+    "bootstrap-icons": "^1.10.2",
+    "config": "^3.3.8",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.5",
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "css-minify": "^2.0.0",
+    "html-minifier": "^4.0.0",
+    "nodemon": "^2.0.20",
+    "postcss": "^8.4.19",
+    "postcss-cli": "^10.1.0",
+    "purgecss": "^5.0.0",
     "sass": "^1.56.1"
   }
 }
