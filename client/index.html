@@ -37,22 +37,42 @@
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                     <div class="pocket-5"></div>
                   </div>
-                  <!-- <div class="input-block mb-4">
-                    <input type="password" class="form-control float-label-input" id="password_input" placeholder=" ">
-                    <label for="password_input" class="placeholder">Password</label>
-                    <div id="password_help" class="form-text"><a href="#">Forgot password?</a></div>
-                    <div class="pocket-8"></div>
-                  </div> -->
                   <div class="row flex-nowrap justify-content-center">
                     <button type="submit" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
                     <button type="submit" class="btn btn-outline-success shadow-lg">Sign in</button>
                   </div>
-                
               </form>    
         </div>
     </div>
 
-    
+  <template id="sign_up_form">
+    <div class="input-block mb-3">
+      <input type="text" class="form-control float-label-input" id="password_input" placeholder=" ">
+      <label for="password_input" class="placeholder">Name</label>
+      <div class="pocket-4"></div>
+    </div>
+    <div class="input-block mb-3">
+      <input type="text" class="form-control float-label-input" id="password_input" placeholder=" ">
+      <label for="password_input" class="placeholder">Username</label>
+      <div class="pocket-8"></div>
+    </div>
+    <div class="input-block mb-3">
+        <input type="password" class="form-control float-label-input" id="password_input" placeholder=" ">
+        <label for="password_input" class="placeholder">Password</label>
+        <div id="emailHelp" class="form-text">Password must be longer 5 symbols</div> 
+        <div class="pocket-8"></div>
+    </div>
+    <div class="input-block mb-3">
+      <input type="password" class="form-control float-label-input" id="password_input_confirm" placeholder=" ">
+      <label for="password_input" class="placeholder">Password**</label>
+      <div id="emailHelp" class="form-text">Confirm password</div>
+      <div class="pocket-10"></div>
+      
+    </div>
+    <div class="row flex-nowrap justify-content-center mt-3">
+      <button type="submit" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+    </div>
+  </template>
 
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
