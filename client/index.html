@@ -4,15 +4,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/dist/styles.min.css">
+    <link rel="stylesheet"  href="styles/css/styles.css">
     <title>Dashboard</title>
 </head>
-<body class="bg-primary">
+<body>
+    <nav class="navbar navbar-dark shadow-lg">
+        <div class="container-fluid justify-content-center justify-content-md-start">
+          <a class="navbar-brand" href="#">
+            <svg class="bi" width="32" height="32" fill="white">
+                <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected" ></use>
+              </svg>
+            dashboard
+            </a>
+        </div>
+      </nav>
+      
+    <div class="container-fluid">
+        <div class="row " id="main_content">
+            <form class="shadow-lg">
+                <button class="btn btn-outline-primary  mb-3 w-100">
+                    <img src="./images/google_logo.svg" class="btn-logo" >
+                     Google
+                </button>
+                <div class="or-block mb-4">
+                   <div class="or"><span>or</span></div>   
+                   <div class="hrow"></div>
+                </div>
+                
+                <div class="input-block mb-3 ">
+                    <input type="email" class="form-control " id="email_input" placeholder=" ">
+                    <label for="email_input" class="placeholder">Email</label>
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div class="email-pocket"></div>
+                  </div>
+                  <div class="input-block mb-4">
+                    <input type="password" class="form-control" id="password_input" placeholder=" ">
+                    <label for="password_input" class="placeholder">Password</label>
+                    <div id="password_help" class="form-text"><a href="#">Forgot password?</a></div>
+                    <div class="password-pocket"></div>
+                  </div>
+                  <div class="row flex-nowrap justify-content-center">
+                    <button type="submit" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+                    <button type="submit" class="btn btn-outline-success shadow-lg">Sign in</button>
+                  </div>
+                
+              </form>    
+        </div>
+    </div>
 
     
 
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="./js/test.js"></script>
+    <script src="./js/auth.js"></script>
 </body>
 </html>

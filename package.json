@@ -8,7 +8,7 @@
     "sass:comp": "sass client/styles/scss/base.scss client/styles/css/styles.css --load-path=node_modules/bootstrap/scss/",
     "server:dev": "nodemon app.js",
     "minify:css": "css-minify --file client/styles/css/styles.css -o client/styles/dist",
-    "purge:css": "purgecss -v -font -keyframes --css client/styles/css/styles.css --content client/index.dev.html client/js/*.js --output client/styles/css/",
+    "purge:css": "purgecss -v -font -keyframes --css client/styles/css/styles.css --content client/index.html client/js/*.js --output client/styles/css/",
     "autoprefix": "npx postcss client/styles/css/styles.css  --use autoprefixer -d client/styles/css/",
     "pre:deploy": "run-s sass:comp purge:css autoprefix minify:css",
     "server": "export NODE_ENV=production && sudo -E \"$(which node)\" app.js ",

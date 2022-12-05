@@ -1,0 +1,142 @@
+
+body{
+    background-color: $bg_color;
+
+    .navbar {
+        background-color: $nav_color;
+
+        .navbar-brand{
+            font-size: 1.8em;
+            font-weight: bold;
+            text-shadow: 1px 1px  4px  rgba(0, 0, 0, 0.856);
+            display: inline-block;
+            margin-left: 1em ;
+
+            svg {
+                margin-bottom: 0.2em;
+            }
+        }
+      
+    }
+
+    #main_content{
+        height: 100vh;
+        justify-content: center;
+        padding: 0 1em;
+
+        form {
+            max-width: 25em;
+            margin-top: 10em;
+            padding: 2em 2em;
+            background-color:  $nav_color;
+            height: max-content;
+            border-radius: 7px;
+            color: $input_text_color;
+            position: relative;
+
+            .btn-logo {
+                margin-bottom: 0.3em;
+                margin-right: 0.4em;
+                height: 1.2em;
+                margin-left: -1.9em;
+            }
+
+            .or-block{
+                color: $input_text_color;
+                width: 100%;
+                text-align: center;
+                position: relative;
+
+                .or {
+                   
+                    span { 
+                        display: inline-block;
+                        padding: 0 0.8em;
+                        background-color: $nav_color ;
+                        z-index: 99;
+                        position: relative;
+
+                    }
+                }
+
+                .hrow {
+                    position: absolute;
+                    width: 100%;
+                    top: 0.8em;
+                    border-bottom: 1px solid $input_text_color;
+                    z-index: 0;
+                }
+
+            }
+            
+            .form-control {
+                background-color: transparent;
+            }
+            .form-control:focus {
+                border-color: #28a745;
+                box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            } 
+            button {
+                width: 40%;
+            }
+
+            .input-block{
+                position: relative;
+                
+                input {
+                    color: $input_text_color;
+                }
+
+                input:focus ~ .placeholder,
+                input:not(:placeholder-shown) ~ .placeholder{
+                    transition: transform 200ms ease-in-out;
+                    transform: translateY(-20px) scale(0.9) translateX(-5px);
+                }
+
+                input:focus ~ .email-pocket,
+                input:focus ~ .password-pocket,
+                input:not(:placeholder-shown) ~ .email-pocket,
+                input:not(:placeholder-shown) ~ .password-pocket {
+                    
+                    transition: opacity 200ms ease-in-out;
+                    opacity: 1;
+                    
+                }
+
+                .placeholder {
+                    position: absolute;
+                    top: 0.5em;
+                    left: 1em;
+                    color: r$input_text_color;
+                    background-color: transparent;
+                    z-index: 99;
+                }
+
+                .pocket {
+                    position: absolute;
+                    height: 1em;
+                    top: -0.5em;
+                    left: 0.5em;
+                    background-color: $nav_color;
+                    opacity: 0;
+
+                }
+                
+                .email-pocket {
+                    @extend .pocket;  
+                    width: 3em;
+                }
+                    
+                .password-pocket {
+                    @extend .pocket;
+                    width: 5em;
+                }
+                
+                
+            }
+
+        }
+    
+    }
+}
+
