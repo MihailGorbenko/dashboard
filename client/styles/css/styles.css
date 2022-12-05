@@ -10799,6 +10799,16 @@ body #main_content form {
   color: rgba(255, 255, 255, 0.514);
   position: relative;
 }
+body #main_content form .sign-up-form {
+  animation: fadeIn 1s linear;
+}
+body #main_content form .form-label {
+  font-size: 1.5em;
+  color: var(--bs-success);
+}
+body #main_content form .label-danger {
+  color: var(--bs-danger) !important;
+}
 body #main_content form .btn-logo {
   margin-bottom: 0.3em;
   margin-right: 0.4em;
@@ -10902,6 +10912,33 @@ body #main_content form .input-block .pocket-9 {
 }
 body #main_content form .input-block .pocket-10 {
   width: 6em;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+#spinner_bg {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.589);
+  z-index: 999;
+  width: 100vw;
+  height: 120vh;
+}
+#spinner_bg .spinner-border {
+  margin-top: 16em;
+}
+
+body {
+  position: relative;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -38,6 +38,19 @@ body{
             color: $input_text_color;
             position: relative;
 
+            .sign-up-form {
+                animation: fadeIn 1s linear;
+            }
+
+            .form-label{
+                font-size: 1.5em;
+                color: var(--bs-success);
+            }
+
+            .label-danger {
+                color: var(--bs-danger) !important;
+            }
+
             .btn-logo {
                 margin-bottom: 0.3em;
                 margin-right: 0.4em;
@@ -177,4 +190,17 @@ body{
     
     }
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+
 

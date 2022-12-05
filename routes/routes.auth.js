@@ -115,7 +115,7 @@ router.post(
     }
 })
 
-//  Check email exists
+//  /isUserEmailExists
 
 router.post(
     '/isUserEmailExists',

@@ -8,6 +8,7 @@
     <title>Dashboard</title>
 </head>
 <body>
+  <!-- Navbar -->
     <nav class="navbar navbar-dark shadow-lg">
         <div class="container-fluid justify-content-center justify-content-md-start">
           <a class="navbar-brand" href="#">
@@ -18,11 +19,18 @@
             </a>
         </div>
       </nav>
-      
+
+      <!-- Main content -->
+
     <div class="container-fluid">
         <div class="row mt-3 mt-md-5" id="main_content">
-            <form class="shadow-lg ">
-                <button class="btn btn-outline-primary  mb-3 w-100">
+
+          <!-- Form -->
+
+            <form class="shadow-lg needs-validation " id="main_form" novalidate>
+
+              <!-- Google button -->
+                <button class="btn btn-outline-success  mb-3 w-100">
                     <img src="./images/google_logo.svg" class="btn-logo" >
                      Google
                 </button>
@@ -31,52 +39,64 @@
                    <div class="hrow"></div>
                 </div>
                 
-                <div class="input-block mb-3 ">
-                    <input type="email" class="form-control float-label-input" id="email_input" placeholder=" ">
-                    <label for="email_input" class="placeholder">Email</label>
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <!-- Email input -->
+                <div class="input-block mb-3">
+                    <input type="email" class="form-control float-label-input" id="email_input" placeholder=" " required>
+                    <label for="email_input" class="placeholder" >Email</label>
+                    <div id="email_help" class="form-text">We'll never share your email with anyone else.</div>
                     <div class="pocket-5"></div>
-                  </div>
+                </div>
+               
+                  <!-- Buttons -->
                   <div class="row flex-nowrap justify-content-center">
-                    <button type="submit" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
-                    <button type="submit" class="btn btn-outline-success shadow-lg">Sign in</button>
+                    <button type="button" id="sign_up_button" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+                    <button type="button" id="sign_in_button" class="btn btn-outline-success shadow-lg">Sign in</button>
                   </div>
               </form>    
         </div>
     </div>
+   
 
+  <!-- Sign up temlate -->
   <template id="sign_up_form">
-    <div class="input-block mb-3">
-      <input type="text" class="form-control float-label-input" id="password_input" placeholder=" ">
-      <label for="password_input" class="placeholder">Name</label>
-      <div class="pocket-4"></div>
-    </div>
-    <div class="input-block mb-3">
-      <input type="text" class="form-control float-label-input" id="password_input" placeholder=" ">
-      <label for="password_input" class="placeholder">Username</label>
-      <div class="pocket-8"></div>
-    </div>
-    <div class="input-block mb-3">
-        <input type="password" class="form-control float-label-input" id="password_input" placeholder=" ">
-        <label for="password_input" class="placeholder">Password</label>
-        <div id="emailHelp" class="form-text">Password must be longer 5 symbols</div> 
+    <div class="sign-up-form">
+      <div class="form-label mb-3"> Sign up</div>
+      <div class="input-block mb-3">
+        <input type="text" class="form-control float-label-input" id="name_input" placeholder=" ">
+        <label for="name_input" class="placeholder">Name</label>
+        <div class="pocket-5"></div>
+      </div>
+      <div class="input-block mb-3">
+        <input type="text" class="form-control float-label-input" id="username_input" placeholder=" ">
+        <label for="username_input" class="placeholder">Username</label>
         <div class="pocket-8"></div>
-    </div>
-    <div class="input-block mb-3">
-      <input type="password" class="form-control float-label-input" id="password_input_confirm" placeholder=" ">
-      <label for="password_input" class="placeholder">Password**</label>
-      <div id="emailHelp" class="form-text">Confirm password</div>
-      <div class="pocket-10"></div>
-      
-    </div>
-    <div class="row flex-nowrap justify-content-center mt-3">
-      <button type="submit" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+      </div>
+      <div class="input-block mb-3">
+          <input type="password" class="form-control float-label-input" id="password_input" placeholder=" ">
+          <label for="password_input" class="placeholder">Password</label>
+          <div id="password_help" class="form-text">Password must be longer 5 symbols</div> 
+          <div class="pocket-8"></div>
+      </div>
+      <div class="input-block mb-3">
+        <input type="password" class="form-control float-label-input" id="password_input_confirm" placeholder=" ">
+        <label for="password_input_confirm" class="placeholder">Password**</label>
+        <div id="password_help" class="form-text">Confirm password</div>
+        <div class="pocket-10"></div>
+        
+      </div>
+      <div class="row flex-nowrap justify-content-center mt-3">
+        <button type="button" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+      </div>
     </div>
   </template>
 
+  <div id="spinner_bg" class="d-none">
+      <div class="spinner-border text-success" role="status">
+      </div>  
+  </div>
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="./js/auth.js"></script>
-
+   
 </body>
 </html>

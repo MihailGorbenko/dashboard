@@ -47,3 +47,8 @@
 
 
 @import "./auth_page";
+@import "./spinner";
+
+body {
+    position: relative;
+}
