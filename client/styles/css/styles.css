@@ -10786,7 +10786,7 @@ body #main_content {
 }
 body #main_content form {
   max-width: 25em;
-  margin-top: 10em;
+  margin-top: 1em;
   padding: 2em 2em;
   background-color: #252830;
   height: max-content;
