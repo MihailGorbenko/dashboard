@@ -9,12 +9,14 @@ const config = require('config')
 const router = Router()
 const jsonParser = bodyParser.json()
 
+// Register
 router.post(
     '/register',
      jsonParser,
      [
         check('email','bad email').isEmail(),
-        check('password','bad password').isString().isLength({ min: 5 })
+        check('password','bad password').isString().isLength({ min: 5 }),
+        check('profileName','bad profileName').isString().isLength({ max: 15 })
      ],
      async (req,res) => {
 
@@ -28,10 +30,11 @@ router.post(
             })
         }
 
-        const {email,password} = req.body
-        const candidate = await User.findOne({ "credentials.email": email })
+        const {email,password,profileName} = req.body
+        const candidateEmail = await User.findOne({ "credentials.email": email})
+        const candidateProfile = await User.findOne({ "userData.profileName": profileName})
 
-        if(candidate){
+        if(candidateEmail || candidateProfile){
             console.log('User exists.');
             return res.status(400).json({message: 'exist'})
         } 
@@ -43,6 +46,9 @@ router.post(
             credentials: {
                 email: email,
                 password: hashedPassword
+            },
+            userData: {
+                profileName: profileName
             }
         })
         await user.save()
@@ -52,11 +58,12 @@ router.post(
     }
 })
 
+// Login
 router.post(
     '/login',
      jsonParser,
      [
-        check('email','bad email').normalizeEmail().isEmail(),
+        check('email','bad email').isEmail(),
         check('password','bad password').exists()
      ],
      async (req,res) => {
@@ -107,6 +114,81 @@ router.post(
         res.status(500).json({message: 'error',errtext: e.message})
     }
 })
+
+//  Check email exists
+
+router.post(
+    '/isUserEmailExists',
+    jsonParser,
+    [
+        check('email','bad email').normalizeEmail().isEmail(),
+    ],
+    async (req,res) => {
+        try {
+            const errors = validationResult(req)
+    
+            if (!errors.isEmpty()){
+                return res.status(400).json({
+                    errors: errors.array(),
+                    message: 'incorect'
+                })
+            }
+    
+            const {email} = req.body
+            const candidate = await User.findOne({ "credentials.email": email })
+    
+            if(!candidate){
+                console.log('User not exists.');
+                return res.status(400).json({message: 'not exist'})
+            } 
+
+            console.log('User exists.');
+            return res.status(200).json({message: 'exist'})
+            
+            } catch(e){
+                res.status(500).json({message: 'error'})
+                }
+
+    }
+)
+
+
+
+// Check username exists
+
+router.post(
+    '/isProfileNameAvailable',
+    jsonParser,
+    [
+        check('profileName','bad profileName').isString().isLength({ max: 15 })
+    ],
+    async (req,res) => {
+        try {
+            const errors = validationResult(req)
+    
+            if (!errors.isEmpty()){
+                return res.status(400).json({
+                    errors: errors.array(),
+                    message: 'incorect'
+                })
+            }
+    
+            const {profileName} = req.body
+            const candidateProfile = await User.findOne({ "userData.profileName": profileName })
+    
+            if(candidateProfile){
+                console.log('profileName exists.');
+                return res.status(400).json({ message: 'exist' })
+            } 
+            console.log('profileName available.');
+            return res.status(200).json({ message: 'available' })
+
+            } catch(e){
+                res.status(500).json({message: 'error'})
+                }
+
+    }
+)
 
 
 

@@ -10,10 +10,14 @@ body{
             font-weight: bold;
             text-shadow: 1px 1px  4px  rgba(0, 0, 0, 0.856);
             display: inline-block;
-            margin-left: 1em ;
+            margin-left: -0.5em;
+
+            @media (min-width:768px) {
+                    margin-left: 1em;
+            }
 
             svg {
-                margin-bottom: 0.2em;
+                margin-bottom: 0.2em;    
             }
         }
       
@@ -38,7 +42,7 @@ body{
                 margin-bottom: 0.3em;
                 margin-right: 0.4em;
                 height: 1.2em;
-                margin-left: -1.9em;
+                margin-left: -1.5em;
             }
 
             .or-block{
@@ -83,24 +87,39 @@ body{
             .input-block{
                 position: relative;
                 
-                input {
+                .float-label-input {
                     color: $input_text_color;
                 }
 
-                input:focus ~ .placeholder,
-                input:not(:placeholder-shown) ~ .placeholder{
+                .float-label-input:focus ~ .placeholder,
+                .float-label-input:not(:placeholder-shown) ~ .placeholder{
                     transition: transform 200ms ease-in-out;
-                    transform: translateY(-20px) scale(0.9) translateX(-5px);
+                    transform: translateY(-22px) scale(0.9) translateX(-5px);
                 }
 
-                input:focus ~ .email-pocket,
-                input:focus ~ .password-pocket,
-                input:not(:placeholder-shown) ~ .email-pocket,
-                input:not(:placeholder-shown) ~ .password-pocket {
-                    
+                .float-label-input:focus ~ .pocket-4,
+                .float-label-input:focus ~ .pocket-5,
+                .float-label-input:focus ~ .pocket-6,
+                .float-label-input:focus ~ .pocket-7,
+                .float-label-input:focus ~ .pocket-8,
+                .float-label-input:focus ~ .pocket-9,
+                .float-label-input:focus ~ .pocket-10 {
+      
                     transition: opacity 200ms ease-in-out;
                     opacity: 1;
                     
+                }
+
+                .float-label-input:not(:placeholder-shown) ~ .pocket-4,
+                .float-label-input:not(:placeholder-shown) ~ .pocket-5,
+                .float-label-input:not(:placeholder-shown) ~ .pocket-6,
+                .float-label-input:not(:placeholder-shown) ~ .pocket-7,
+                .float-label-input:not(:placeholder-shown) ~ .pocket-8,
+                .float-label-input:not(:placeholder-shown) ~ .pocket-9,
+                .float-label-input:not(:placeholder-shown) ~ .pocket-10 {
+
+                    transition: opacity 200ms ease-in-out;
+                    opacity: 1;
                 }
 
                 .placeholder {
@@ -120,19 +139,38 @@ body{
                     background-color: $nav_color;
                     opacity: 0;
 
+
                 }
                 
-                .email-pocket {
+                .pocket-4 {
                     @extend .pocket;  
-                    width: 3em;
+                    width: calc(0.6em * 4);
                 }
                     
-                .password-pocket {
-                    @extend .pocket;
-                    width: 5em;
+                .pocket-5 {
+                    @extend .pocket;  
+                    width: calc(0.6em * 5);
                 }
-                
-                
+                .pocket-6 {
+                    @extend .pocket;  
+                    width: calc(0.6em * 6);
+                }
+                .pocket-7 {
+                    @extend .pocket;  
+                    width: calc(0.6em * 7);
+                }
+                .pocket-8 {
+                    @extend .pocket;  
+                    width: calc(0.6em * 8);
+                }
+                .pocket-9 {
+                    @extend .pocket;  
+                    width: calc(0.6em * 9);
+                }
+                .pocket-10 {
+                    @extend .pocket;  
+                    width: calc(0.6em * 10);
+                }
             }
 
         }

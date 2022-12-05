@@ -10774,7 +10774,12 @@ body .navbar .navbar-brand {
   font-weight: bold;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.856);
   display: inline-block;
-  margin-left: 1em;
+  margin-left: -0.5em;
+}
+@media (min-width: 768px) {
+  body .navbar .navbar-brand {
+    margin-left: 1em;
+  }
 }
 body .navbar .navbar-brand svg {
   margin-bottom: 0.2em;
@@ -10798,7 +10803,7 @@ body #main_content form .btn-logo {
   margin-bottom: 0.3em;
   margin-right: 0.4em;
   height: 1.2em;
-  margin-left: -1.9em;
+  margin-left: -1.5em;
 }
 body #main_content form .or-block {
   color: rgba(255, 255, 255, 0.514);
@@ -10833,18 +10838,31 @@ body #main_content form button {
 body #main_content form .input-block {
   position: relative;
 }
-body #main_content form .input-block input {
+body #main_content form .input-block .float-label-input {
   color: rgba(255, 255, 255, 0.514);
 }
-body #main_content form .input-block input:focus ~ .placeholder,
-body #main_content form .input-block input:not(:placeholder-shown) ~ .placeholder {
+body #main_content form .input-block .float-label-input:focus ~ .placeholder,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .placeholder {
   transition: transform 200ms ease-in-out;
-  transform: translateY(-20px) scale(0.9) translateX(-5px);
+  transform: translateY(-22px) scale(0.9) translateX(-5px);
 }
-body #main_content form .input-block input:focus ~ .email-pocket,
-body #main_content form .input-block input:focus ~ .password-pocket,
-body #main_content form .input-block input:not(:placeholder-shown) ~ .email-pocket,
-body #main_content form .input-block input:not(:placeholder-shown) ~ .password-pocket {
+body #main_content form .input-block .float-label-input:focus ~ .pocket-4,
+body #main_content form .input-block .float-label-input:focus ~ .pocket-5,
+body #main_content form .input-block .float-label-input:focus ~ .pocket-6,
+body #main_content form .input-block .float-label-input:focus ~ .pocket-7,
+body #main_content form .input-block .float-label-input:focus ~ .pocket-8,
+body #main_content form .input-block .float-label-input:focus ~ .pocket-9,
+body #main_content form .input-block .float-label-input:focus ~ .pocket-10 {
+  transition: opacity 200ms ease-in-out;
+  opacity: 1;
+}
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-4,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-5,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-6,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-7,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-8,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-9,
+body #main_content form .input-block .float-label-input:not(:placeholder-shown) ~ .pocket-10 {
   transition: opacity 200ms ease-in-out;
   opacity: 1;
 }
@@ -10856,7 +10874,7 @@ body #main_content form .input-block .placeholder {
   background-color: transparent;
   z-index: 99;
 }
-body #main_content form .input-block .pocket, body #main_content form .input-block .password-pocket, body #main_content form .input-block .email-pocket {
+body #main_content form .input-block .pocket, body #main_content form .input-block .pocket-10, body #main_content form .input-block .pocket-9, body #main_content form .input-block .pocket-8, body #main_content form .input-block .pocket-7, body #main_content form .input-block .pocket-6, body #main_content form .input-block .pocket-5, body #main_content form .input-block .pocket-4 {
   position: absolute;
   height: 1em;
   top: -0.5em;
@@ -10864,11 +10882,26 @@ body #main_content form .input-block .pocket, body #main_content form .input-blo
   background-color: #252830;
   opacity: 0;
 }
-body #main_content form .input-block .email-pocket {
+body #main_content form .input-block .pocket-4 {
+  width: 2.4em;
+}
+body #main_content form .input-block .pocket-5 {
   width: 3em;
 }
-body #main_content form .input-block .password-pocket {
-  width: 5em;
+body #main_content form .input-block .pocket-6 {
+  width: 3.6em;
+}
+body #main_content form .input-block .pocket-7 {
+  width: 4.2em;
+}
+body #main_content form .input-block .pocket-8 {
+  width: 4.8em;
+}
+body #main_content form .input-block .pocket-9 {
+  width: 5.4em;
+}
+body #main_content form .input-block .pocket-10 {
+  width: 6em;
 }
 
 /*# sourceMappingURL=styles.css.map */
