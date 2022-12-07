@@ -29,6 +29,7 @@ signUpButton.addEventListener('click', async e => {
     } else {
         console.log('Sign up: user not exists! setting state');
         inputStateValid(emailFieldInfo,emailInput,'')
+        console.log('Sign up: call show form')
         showSighUpForm()
     }
 })
@@ -54,6 +55,7 @@ signInButton.addEventListener('click', async e => {
     } else {
         console.log('Sign in: user not exists! setting state');
         inputStateValid(emailFieldInfo,emailInput,'')
+        console.log('Sign in: call show form')
         showSighInForm()
     }
     
@@ -75,10 +77,12 @@ function inputStateInvalid(infoLabel, inputEl, infoText){
 }
 
 function showSighUpForm(){
+    console.log('Show sign up form')
     mainForm.innerHTML = signUpTemplate.innerHTML
 }
 
 function showSighInForm(){
+    console.log('Show sign in form')
     mainForm.innerHTML = signInTemplate.innerHTML
     const passwordRestore = document.querySelector('#password_restore')
     const passwordInfo = document.querySelector('#password_help')
