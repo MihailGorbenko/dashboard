@@ -6,12 +6,12 @@
   "scripts": {
     "sass:w": "sass client/styles/scss/base.scss client/styles/css/styles.css --watch --load-path=node_modules/bootstrap/scss/",
     "sass:comp": "sass client/styles/scss/base.scss client/styles/css/styles.css --load-path=node_modules/bootstrap/scss/",
-    "server:dev": "nodemon app.js",
+    "server:dev": "pm2-dev app.js",
     "minify:css": "css-minify --file client/styles/css/styles.css -o client/styles/dist",
     "purge:css": "purgecss -v -font -keyframes --css client/styles/css/styles.css --content client/index.html client/js/*.js --output client/styles/css/",
     "autoprefix": "npx postcss client/styles/css/styles.css  --use autoprefixer -d client/styles/css/",
     "pre:deploy": "run-s sass:comp purge:css autoprefix minify:css",
-    "server": "export NODE_ENV=production && sudo -E \"$(which node)\" app.js ",
+    "server": "export NODE_ENV=production &&  pm2 start app.js",
     "sync:aws": "rsync -rvP -e ssh --exclude=node_modules --exclude=.git ./ ubuntu@3.67.197.225:/home/ubuntu/dashboard"
   },
   "author": "Miha Go",
@@ -27,7 +27,8 @@
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.5",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "pm2": "^5.2.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
