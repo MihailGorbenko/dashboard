@@ -121,7 +121,7 @@ router.post(
     '/isUserEmailExists',
     jsonParser,
     [
-        check('email','bad email').normalizeEmail().isEmail(),
+        check('email','bad email').isEmail(),
     ],
     async (req,res) => {
         try {

@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"  href="styles/css/styles.css">
+    <!-- Dev -->
+    <link rel="stylesheet"  href="styles/css/styles.css">  
+    <!-- Production -->
+    <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
+
     <title>Dashboard</title>
 </head>
 <body>
@@ -28,26 +32,34 @@
           <!-- Form -->
 
             <form class="shadow-lg needs-validation " id="main_form" novalidate>
+
                 <div class="sign-in-form">
                     <div class="form-label mb-3"> Sign in</div>
                     <div class="input-block mb-3">
-                      <input type="password" class="form-control float-label-input" id="password_input" placeholder=" " required>
-                      <label for="password_input" class="placeholder" >Password</label>
+                      <input type="password" class="form-control float-label-input" id="sign_in_password_input" placeholder=" " required>
+                      <label for="sign_in_password_input" class="placeholder" >Password</label>
                       <div id="password_help" class="form-text"></div>
                       <div  class="form-text"><a href="#" id="password_restore">Forgot password?</a></div>
                       <div class="pocket-8"></div>
-                      <div class="row flex-nowrap justify-content-center mt-3">
-                        <button type="button" id="sign_in_action" class="btn btn-outline-success shadow-lg me-3">Sign in</button>
-                      </div>
+                    </div>
+                    <div class="row flex-nowrap justify-content-center mt-3">
+                      <button type="button" id="sign_in_action" class="btn btn-outline-success shadow-lg me-3">Sign in</button>
+                    </div>
                   </div>
-              
-            </form>    
+              </form>    
         </div>
     </div>
-   
 
+  <!-- Sign in template -->
+
+  <template id="sign_in_template">
+    
+  </template>
+   
+  <template id="sign_up_button"></template>
+  <template id="sign_in_button"></template>
   <!-- Sign up temlate -->
-  <template id="sign_up_form">
+  <template id="sign_up_template">
     <div class="sign-up-form">
       <div class="form-label mb-3"> Sign up</div>
       <div class="input-block mb-3">
@@ -73,23 +85,12 @@
         <div class="pocket-10"></div> 
       </div>
       <div class="row flex-nowrap justify-content-center mt-3">
-        <button type="button"iid="sign_up_action" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+        <button type="button" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
       </div>
     </div>
   </template>
 
-  <!-- Sign in template -->
 
-  <template id="sign_in_form">
-    <div class="sign-in-form">
-      <div class="form-label mb-3"> Sign in</div>
-      <div class="input-block mb-3">
-        <input type="password" class="form-control float-label-input" id="password_input" placeholder=" " required>
-        <label for="password_input" class="placeholder" >Password</label>
-        <div id="password_help" class="form-text"></div>
-        <div class="pocket-8"></div>
-    </div>
-  </template>
 
   <!-- Spinner -->
   <div id="spinner_bg" class="d-none">

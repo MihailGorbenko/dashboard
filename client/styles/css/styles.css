@@ -10802,6 +10802,9 @@ body #main_content form {
 body #main_content form .sign-up-form {
   animation: fadeIn 1s linear;
 }
+body #main_content form .sign-in-form {
+  animation: fadeIn 1s linear;
+}
 body #main_content form .form-label {
   font-size: 1.5em;
   color: var(--bs-success);
@@ -10922,6 +10925,13 @@ body #main_content form .input-block .pocket-10 {
     opacity: 1;
   }
 }
+#main_page {
+  background-color: #1b1e24;
+  color: var(--bs-success) !important;
+  text-align: center;
+  padding-top: 2em;
+}
+
 #spinner_bg {
   display: flex;
   justify-content: center;
