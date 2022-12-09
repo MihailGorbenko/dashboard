@@ -97,8 +97,7 @@ router.post(
 
         console.log('generating jwt');
         const token = jwt.sign({
-            id: user.id,
-            profileName: user.profileName
+            id: user.id
             },
             config.get('jwtSecret'),
             {

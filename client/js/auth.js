@@ -12,6 +12,12 @@ let emailInput = document.querySelector('#email_input')
 let USER_EMAIL = ''
 let SIGN_UP_FORM = false
 let mainFormSavedState = null
+let signUpForm = document.createElement('div')
+signUpForm.innerHTML = signUpTemplate.innerHTML
+let signInForm = document.createElement('div')
+signInForm.innerHTML = signInTemplate.innerHTML
+
+
 
 // preventing enter press actions
 mainForm.addEventListener('keypress', (e) => {
@@ -94,7 +100,9 @@ function inputStateInvalid(infoLabel, inputEl, infoText){
 //  Sign up form
 function runSighUpForm(){
     console.log('Show sign up form')
-    mainForm.innerHTML = signUpTemplate.innerHTML
+  
+    mainFormSavedState = mainForm.removeChild(mainForm.firstElementChild)
+    mainForm.appendChild(signUpForm)
     const setNameInput = document.querySelector('#sign_up_name_input')
     const setPasswordInput = document.querySelector('#sign_up_password_input')
     const setPasswordConfirm = document.querySelector('#sign_up_password_input_confirm')
@@ -138,7 +146,21 @@ function runSighUpForm(){
     signUpAction.addEventListener('click',async e => {
         let userName = setNameInput.value
         let password = setPasswordInput.value
+        let passwordConfirm = setPasswordConfirm.value 
         console.log(userName,password);
+
+        if(userName.length < 1) {
+            inputStateInvalid(setNameInfo,setNameInput,'Name is required')
+            return
+        }
+        if(password.length < 1) {
+            inputStateInvalid(setPasswordInfo,setPasswordInput,'Password is required')
+            return
+        }
+        if(passwordConfirm.length < 1) {
+            inputStateInvalid(setPasswordConfirmLabel,setPasswordConfirm,'Confirm password')
+            return
+        }
 
         try{
             toggleSpinner()
@@ -147,7 +169,12 @@ function runSighUpForm(){
 
             if(resp.message === 'created'){
                 await showOkBlocking()
-               
+                mainForm.removeChild(mainForm.firstElementChild)
+                mainForm.appendChild(mainFormSavedState)
+                let alert = document.createElement('div')
+                alert.innerHTML = '<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">Now you can sign in!</div>'
+                mainForm.firstElementChild.appendChild(alert)
+                
             }
 
             else if(resp.message === 'error'){
@@ -167,8 +194,9 @@ function runSighUpForm(){
 // Sign in form
 function runSighInForm(){
     console.log('Show sign in form')
-    console.log(signInTemplate);
-    mainForm.innerHTML = signInTemplate.innerHTML
+    
+    mainFormSavedState = mainForm.removeChild(mainForm.firstElementChild)
+    mainForm.appendChild(signInForm)
     const passwordRestore = document.querySelector('#password_restore')
     const passwordInfo = document.querySelector('#password_help')
     const signInAction = document.querySelector('#sign_in_action')
