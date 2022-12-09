@@ -7,8 +7,7 @@
     }, 
     userData: {
         imgUri: {type: String},
-        name: {type: String},
-        profileName: {type: String}
+        name: {type: String}
     }
 
  })

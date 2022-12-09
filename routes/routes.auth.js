@@ -16,7 +16,7 @@ router.post(
      [
         check('email','bad email').isEmail(),
         check('password','bad password').isString().isLength({ min: 5 }),
-        check('profileName','bad profileName').isString().isLength({ max: 15 })
+        check('name','bad name').isString().isAlpha()
      ],
      async (req,res) => {
 
@@ -30,11 +30,10 @@ router.post(
             })
         }
 
-        const {email,password,profileName} = req.body
+        const {email,password,name} = req.body
         const candidateEmail = await User.findOne({ "credentials.email": email})
-        const candidateProfile = await User.findOne({ "userData.profileName": profileName})
 
-        if(candidateEmail || candidateProfile){
+        if(candidateEmail){
             console.log('User exists.');
             return res.status(400).json({message: 'exist'})
         } 
@@ -48,7 +47,7 @@ router.post(
                 password: hashedPassword
             },
             userData: {
-                profileName: profileName
+                name: name
             }
         })
         await user.save()
@@ -151,46 +150,6 @@ router.post(
 
     }
 )
-
-
-
-// Check username exists
-
-router.post(
-    '/isProfileNameAvailable',
-    jsonParser,
-    [
-        check('profileName','bad profileName').isString().isLength({ max: 15 })
-    ],
-    async (req,res) => {
-        try {
-            const errors = validationResult(req)
-    
-            if (!errors.isEmpty()){
-                return res.status(400).json({
-                    errors: errors.array(),
-                    message: 'incorect'
-                })
-            }
-    
-            const {profileName} = req.body
-            const candidateProfile = await User.findOne({ "userData.profileName": profileName })
-    
-            if(candidateProfile){
-                console.log('profileName exists.');
-                return res.status(400).json({ message: 'exist' })
-            } 
-            console.log('profileName available.');
-            return res.status(200).json({ message: 'available' })
-
-            } catch(e){
-                res.status(500).json({message: 'error'})
-                }
-
-    }
-)
-
-
 
 
 module.exports = router
