@@ -21,12 +21,11 @@ app.use('/',require('./routes/routes.pages'))
 async function start() {
 
     try {
-        await mongoose.connect(config.get('mongoUri'), {
+         mongoose.connect(config.get('mongoUri'), {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        })
-        console.log('mongo connected');
-
+        }).then(()=>console.log('mongo connected'))
+        
         http.createServer(app).listen(HTTP_PORT, () => {console.log(`Server listening port ${HTTP_PORT}`);})
 
         https.createServer({

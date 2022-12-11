@@ -1,4 +1,4 @@
- const {Schema, model} = require('mongoose')
+ const {Schema, model,Types} = require('mongoose')
 
  const schema = new Schema({
     credentials: {
@@ -6,10 +6,10 @@
         password: { type:String, required: true, unique: true}
     }, 
     userData: {
-        imgUri: {type: String},
-        name: {type: String}
+        type: Types.ObjectId,
+        ref: 'UserData'
     }
-
+    
  })
 
  module.exports = model('User',schema)

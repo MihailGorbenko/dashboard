@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const bodyParser = require('body-parser')
 const User = require('../models/User')
+const UserData = require('../models/UserData')
 const bcrypt = require('bcryptjs')
 const {check,validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
@@ -40,18 +41,23 @@ router.post(
             return res.status(400).json({message: 'exist'})
         } 
         console.log('No such user.');
-        const hashedPassword = await bcrypt.hash(password,12)
+        const hashedPassword = await bcrypt.hash(password,config.get('passwordSalt'))
         console.log('Password:',hashedPassword);
 
+        const userData = new UserData({
+            name: name
+        }) 
+        
         const user = new User({
             credentials: {
                 email: email,
                 password: hashedPassword
             },
-            userData: {
-                name: name
-            }
+            userData: userData
         })
+
+        userData.user = user
+        await userData.save()
         await user.save()
         res.status(201).json({message: 'created'})
     } catch(e){
@@ -81,14 +87,14 @@ router.post(
 
         const {email,password} = req.body
         const user = await User.findOne({ "credentials.email": email })
+       
         console.log('User found');
+        console.log(user.credentials.email );
 
         if(!user){
             console.log('User not found.');
             return res.status(400).json({message: 'not exist'})
         } 
-        console.log('password',password);
-        console.log('userpassword',user.credentials.password);
         const passwordMatch = await bcrypt.compare(password,user.credentials.password)
         console.log('password match');
 
@@ -136,7 +142,7 @@ router.post(
     
             const {email} = req.body
             const candidate = await User.findOne({ "credentials.email": email })
-    
+
             if(!candidate){
                 console.log('User not exists.');
                 return res.status(400).json({message: 'not exist'})
@@ -161,9 +167,29 @@ router.post('/validateToken', auth, (req,res) => {
 //   /api/auth/restorePassword
 router.post(
     '/restorePassword',
-    check('email', 'bad email').isEmail(),
+    [
+        check('email', 'bad email').isEmail(),
+        check('password','bad password').exists()
+    ],    
     (req,res) => {
-        // send password email
+        const errors = validationResult()
+
+        if(!errors.isEmpty){
+            return res.status(400).json({
+                errors: errors.array(),
+                maessage: "incorect"
+            })
+        }
+
+    const {email,password} = req.body
+    const user = User.findOne("credentials.email",email)
+    if(!user) {
+        console.log('User not found.');
+        return res.status(400).json({
+            message: 'user not found'
+        })
+    }
+
 })
 
 

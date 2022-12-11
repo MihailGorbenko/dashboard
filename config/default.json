@@ -2,6 +2,9 @@
     "http_port": 5000,
     "https_port": 5001,
     "mongoUri": "mongodb+srv://mihago:mihana1234@dashboard.xqweedr.mongodb.net/?retryWrites=true&w=majority",
-    "jwtSecret": "jiraffs likes monkeys"
+    "jwtSecret": "jiraffs likes monkeys",
+    "email": "dashmail911@gmail.com",
+    "emailPassword": "!post911",
+    "passwordSalt": 12
 
 }
