@@ -24,6 +24,8 @@ mainForm.addEventListener('keypress', (e) => {
     if(e.keyCode == 13) e.preventDefault() 
 })
 
+tryRestoreSession()
+
 // Sign up button action 
 signUpButton.addEventListener('click', async e => {
     SIGN_UP_FORM = true
@@ -94,6 +96,50 @@ function inputStateInvalid(infoLabel, inputEl, infoText){
     infoLabel.textContent = infoText
     inputEl.classList.add('is-invalid')
     inputEl.classList.remove('is-valid')
+}
+
+//try restore login session
+async function tryRestoreSession(){
+
+    console.log('trying restore session');
+    let token = localStorage.getItem('token')
+    console.log('got token from ls',token);
+        if(token){
+            console.log('token exists, verifying...');
+            toggleSpinner()
+            let tokenValid = await validateToken(token)
+            toggleSpinner()
+            if(tokenValid){
+                console.log('token valid');
+                runMainPage()
+            }
+            else {
+                console.log('token invalid');
+                return
+            }
+        }
+        console.log('token not exists');
+
+}
+
+
+// api call  /api/auth/validateToken
+async function validateToken(token){
+    console.log('senting token',token);
+    let resp = await fetch('/api/auth/validateToken',{
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    if(resp.status === 200){
+        console.log('token valid');
+        return true;
+    } 
+    else{
+        console.log('token invalid');
+        return false
+    } 
 }
 
 
@@ -216,7 +262,10 @@ function runSighInForm(){
                 return
             }
             inputStateValid(passwordInfo,passwordInput,'')
-            // get token and run main page
+            console.log('Authorized',resp);
+            console.log('token',resp.token);
+            let token = resp.token
+            localStorage.setItem('token',token)
             runMainPage()  
         
             } catch(err) {
@@ -280,6 +329,11 @@ async function tryLogin(email,password){
 
 function runMainPage(){
     window.location = window.location + 'main'
+
+}
+
+function runAuthForm(){
+    //window.location 
 }
 
 

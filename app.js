@@ -14,6 +14,7 @@ const app = express()
 app.use(express.static(path.join(__dirname, '/client')))
 app.use('/node_modules', express.static(path.join(__dirname,'/node_modules')))
 app.use('/api/auth',require('./routes/routes.auth'))
+app.use('/api/data',require('./routes/routes.data'))
 app.use('/',require('./routes/routes.pages'))
 
 

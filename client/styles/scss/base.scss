@@ -46,10 +46,10 @@
 @import "utilities/api";
 
 
-@import "./auth_page";
-@import "./main_page";
-@import "./spinner";
-@import "./ok";
+@import "./form/auth_page";
+@import "./main/main_page";
+@import "./form/spinner";
+@import "./form/ok";
 
 body {
     position: relative;
