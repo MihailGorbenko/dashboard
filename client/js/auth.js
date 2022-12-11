@@ -26,12 +26,29 @@ mainForm.addEventListener('keypress', (e) => {
 
 tryRestoreSession()
 
+function initPasswordIcons(){
+    const passwordIcons = document.querySelectorAll('.password-icon')
+    //setting show password
+    passwordIcons.forEach(passwordIcon => 
+        passwordIcon.addEventListener('click', e => {
+            let passwordInput = e.target.parentNode.firstElementChild
+            let shownIcon = e.target.lastElementChild
+            let hideIcon = e.target.firstElementChild
+            passwordInput.type = passwordInput.type === 'password'? 'text': 'password';
+            shownIcon.classList.toggle('hide')
+            hideIcon.classList.toggle('hide')  
+        })
+    )
+}
+
 // Sign up button action 
 signUpButton.addEventListener('click', async e => {
     SIGN_UP_FORM = true
     e.preventDefault()
     e.stopPropagation()
     USER_EMAIL = emailInput.value
+    console.log('password icons init call');
+    
 
     if (!validateEmailInput()) {
         console.log('Sign up validate: invalid');
@@ -58,6 +75,7 @@ signInButton.addEventListener('click', async e => {
     console.log('Sign in click');
     e.preventDefault()
     e.stopPropagation()
+    
 
     USER_EMAIL = emailInput.value
 
@@ -156,6 +174,7 @@ function runSighUpForm(){
     const setPasswordInfo = document.querySelector('#sign_up_password_help')
     const setNameInfo = document.querySelector('#sign_up_name_help')
     const setPasswordConfirmLabel = document.querySelector('#sign_up_password_confirm_help')
+    initPasswordIcons()
 
     setNameInput.addEventListener('blur',e => {
         text = e.target.value
@@ -247,6 +266,7 @@ function runSighInForm(){
     const passwordInfo = document.querySelector('#password_help')
     const signInAction = document.querySelector('#sign_in_action')
     const passwordInput = document.querySelector('#sign_in_password_input')
+    initPasswordIcons()
 
     signInAction.addEventListener('click',async e => {
         

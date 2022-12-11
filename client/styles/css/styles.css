@@ -10883,7 +10883,7 @@ body #main_content form .input-block .placeholder {
   position: absolute;
   top: 0.5em;
   left: 1em;
-  color: r rgba(255, 255, 255, 0.514);
+  color: rgba(255, 255, 255, 0.514);
   background-color: transparent;
   z-index: 99;
 }
@@ -10925,6 +10925,26 @@ body #main_content form .input-block .pocket-10 {
     opacity: 1;
   }
 }
+.password-icon {
+  height: 1.3em;
+  width: 1.3em;
+  position: absolute;
+  top: 0.55em;
+  right: 1em;
+}
+.password-icon .password-icon-hide,
+.password-icon .password-icon-shown {
+  pointer-events: none;
+}
+.password-icon .hide {
+  display: none;
+}
+
+.float-label-input.is-valid ~ .password-icon,
+.float-label-input.is-invalid ~ .password-icon {
+  right: 2em;
+}
+
 #main_page {
   background-color: #1b1e24;
   color: var(--bs-success) !important;
