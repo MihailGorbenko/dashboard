@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs')
 const {check,validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const auth = require('../middleware/middleware.auth')
+
 
 const router = Router()
 const jsonParser = bodyParser.json()
@@ -105,7 +107,7 @@ router.post(
             }
         )
         console.log('token:', token);
-        res.status(200).json({token,userId: user.id})
+        res.status(200).json({token})
 
        
     } catch(e){
@@ -149,6 +151,20 @@ router.post(
 
     }
 )
+
+//   /api/auth/validateToken
+router.post('/validateToken', auth, (req,res) => {
+    console.log('/validate token token valid');
+    return res.status(200).json({message: 'token valid'})
+})
+
+//   /api/auth/restorePassword
+router.post(
+    '/restorePassword',
+    check('email', 'bad email').isEmail(),
+    (req,res) => {
+        // send password email
+})
 
 
 module.exports = router
