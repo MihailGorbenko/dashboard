@@ -21,22 +21,22 @@ signInForm.innerHTML = signInTemplate.innerHTML
 
 // preventing enter press actions
 mainForm.addEventListener('keypress', (e) => {
-    if(e.keyCode == 13) e.preventDefault() 
+    if (e.keyCode == 13) e.preventDefault()
 })
 
 tryRestoreSession()
 
-function initPasswordIcons(){
+function initPasswordIcons() {
     const passwordIcons = document.querySelectorAll('.password-icon')
     //setting show password
-    passwordIcons.forEach(passwordIcon => 
+    passwordIcons.forEach(passwordIcon =>
         passwordIcon.addEventListener('click', e => {
             let passwordInput = e.target.parentNode.firstElementChild
             let shownIcon = e.target.lastElementChild
             let hideIcon = e.target.firstElementChild
-            passwordInput.type = passwordInput.type === 'password'? 'text': 'password';
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
             shownIcon.classList.toggle('hide')
-            hideIcon.classList.toggle('hide')  
+            hideIcon.classList.toggle('hide')
         })
     )
 }
@@ -48,21 +48,21 @@ signUpButton.addEventListener('click', async e => {
     e.stopPropagation()
     USER_EMAIL = emailInput.value
     console.log('password icons init call');
-    
+
 
     if (!validateEmailInput()) {
         console.log('Sign up validate: invalid');
         return
     }
-   
+
     const exists = await checkUserEmailExists(USER_EMAIL)
-    if(exists){
+    if (exists) {
         console.log('Sign in: user exists! setting state');
-        inputStateInvalid(emailFieldInfo,emailInput,'Account already exists. Try to sign in')
+        inputStateInvalid(emailFieldInfo, emailInput, 'Account already exists. Try to sign in')
         return
     } else {
         console.log('Sign up: user not exists! setting state');
-        inputStateValid(emailFieldInfo,emailInput,'')
+        inputStateValid(emailFieldInfo, emailInput, '')
         console.log('Sign up: call show form')
         runSighUpForm()
     }
@@ -75,32 +75,32 @@ signInButton.addEventListener('click', async e => {
     console.log('Sign in click');
     e.preventDefault()
     e.stopPropagation()
-    
+
 
     USER_EMAIL = emailInput.value
 
-    if(!validateEmailInput()){
+    if (!validateEmailInput()) {
         console.log('Sign in validate: invalid');
         return
-    } 
-    
+    }
+
     const exists = await checkUserEmailExists(USER_EMAIL)
 
-    if(!exists){
+    if (!exists) {
         console.log('Sign in: user not exists! setting state');
-        inputStateInvalid(emailFieldInfo,emailInput,'Account not exists exists. Please sign up first')
+        inputStateInvalid(emailFieldInfo, emailInput, 'Account not exists exists. Please sign up first')
         return
     } else {
         console.log('Sign in: user  exists! setting state');
-        inputStateValid(emailFieldInfo,emailInput,'')
+        inputStateValid(emailFieldInfo, emailInput, '')
         console.log('Sign in: call show form')
         runSighInForm()
     }
-    
+
 })
 
 // Setting input state "valid"
-function inputStateValid(infoLabel,inputEl, infoText){
+function inputStateValid(infoLabel, inputEl, infoText) {
     inputEl.classList.add('is-valid')
     inputEl.classList.remove('is-invalid')
     infoLabel.classList.remove('label-danger')
@@ -109,7 +109,7 @@ function inputStateValid(infoLabel,inputEl, infoText){
 
 
 // Setting input state "invalid"
-function inputStateInvalid(infoLabel, inputEl, infoText){
+function inputStateInvalid(infoLabel, inputEl, infoText) {
     infoLabel.classList.add('label-danger')
     infoLabel.textContent = infoText
     inputEl.classList.add('is-invalid')
@@ -117,54 +117,54 @@ function inputStateInvalid(infoLabel, inputEl, infoText){
 }
 
 //try restore login session
-async function tryRestoreSession(){
+async function tryRestoreSession() {
 
     console.log('trying restore session');
     let token = localStorage.getItem('token')
-    console.log('got token from ls',token);
-        if(token){
-            console.log('token exists, verifying...');
-            toggleSpinner()
-            let tokenValid = await validateToken(token)
-            toggleSpinner()
-            if(tokenValid){
-                console.log('token valid');
-                runMainPage()
-            }
-            else {
-                console.log('token invalid');
-                return
-            }
+    console.log('got token from ls', token);
+    if (token) {
+        console.log('token exists, verifying...');
+        toggleSpinner()
+        let tokenValid = await validateToken(token)
+        toggleSpinner()
+        if (tokenValid) {
+            console.log('token valid');
+            runMainPage()
         }
-        console.log('token not exists');
+        else {
+            console.log('token invalid');
+            return
+        }
+    }
+    console.log('token not exists');
 
 }
 
 
 // api call  /api/auth/validateToken
-async function validateToken(token){
-    console.log('senting token',token);
-    let resp = await fetch('/api/auth/validateToken',{
+async function validateToken(token) {
+    console.log('senting token', token);
+    let resp = await fetch('/api/auth/validateToken', {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`
         }
     })
-    if(resp.status === 200){
+    if (resp.status === 200) {
         console.log('token valid');
         return true;
-    } 
-    else{
+    }
+    else {
         console.log('token invalid');
         return false
-    } 
+    }
 }
 
 
 //  Sign up form
-function runSighUpForm(){
+function runSighUpForm() {
     console.log('Show sign up form')
-  
+
     mainFormSavedState = mainForm.removeChild(mainForm.firstElementChild)
     mainForm.appendChild(signUpForm)
     const setNameInput = document.querySelector('#sign_up_name_input')
@@ -176,78 +176,81 @@ function runSighUpForm(){
     const setPasswordConfirmLabel = document.querySelector('#sign_up_password_confirm_help')
     initPasswordIcons()
 
-    setNameInput.addEventListener('blur',e => {
+    setNameInput.addEventListener('blur', e => {
         text = e.target.value
 
-        if(text.length < 1){
-            inputStateInvalid(setNameInfo,setNameInput,'Name is required')
+        if (text.length < 1) {
+            inputStateInvalid(setNameInfo, setNameInput, 'Name is required')
         }
-        else if(!text.match(/^[A-Za-z]+$/)){
-            inputStateInvalid(setNameInfo,setNameInput,'Use alphabetic symbols only')
+        else if (!text.match(/^[A-Za-z]+$/)) {
+            inputStateInvalid(setNameInfo, setNameInput, 'Use alphabetic symbols only')
         }
-        else if(text.length < 2 ){
-            inputStateInvalid(setNameInfo,setNameInput,'Minimal length 2 symbols')
+        else if (text.length < 2) {
+            inputStateInvalid(setNameInfo, setNameInput, 'Minimal length 2 symbols')
         }
-        else  inputStateValid(setNameInfo,setNameInput,'')
+        else inputStateValid(setNameInfo, setNameInput, '')
     })
 
-    setPasswordInput.addEventListener('input',e => {
-        if(!checkPassword(e.target.value)){
-            inputStateInvalid(setPasswordInfo,setPasswordInput,'Must contain as least one A-Z chars,at least one digit, and min 8 symbols length')
+    setPasswordInput.addEventListener('input', e => {
+        if (!checkPassword(e.target.value)) {
+            inputStateInvalid(setPasswordInfo, setPasswordInput, 'Must contain as least one A-Z chars,at least one digit, and min 8 symbols length')
         }
 
-        else inputStateValid(setPasswordInfo,setPasswordInput,'Strong password')
+        else inputStateValid(setPasswordInfo, setPasswordInput, 'Strong password')
 
     })
 
-    setPasswordConfirm.addEventListener('input',e => {
-        inputStateInvalid(setPasswordConfirmLabel,setPasswordConfirm,'Confirm password')
+    setPasswordConfirm.addEventListener('input', e => {
+        inputStateInvalid(setPasswordConfirmLabel, setPasswordConfirm, 'Confirm password')
 
-        if(e.target.value.localeCompare(setPasswordInput.value) === 0){
-            inputStateValid(setPasswordConfirmLabel,setPasswordConfirm,'Confirm password')
+        if (e.target.value.localeCompare(setPasswordInput.value) === 0) {
+            inputStateValid(setPasswordConfirmLabel, setPasswordConfirm, 'Confirm password')
         }
     })
 
-    signUpAction.addEventListener('click',async e => {
+    signUpAction.addEventListener('click', async e => {
         let userName = setNameInput.value
         let password = setPasswordInput.value
-        let passwordConfirm = setPasswordConfirm.value 
-        console.log(userName,password);
+        let passwordConfirm = setPasswordConfirm.value
+        console.log(userName, password);
 
-        if(userName.length < 1) {
-            inputStateInvalid(setNameInfo,setNameInput,'Name is required')
+        if (userName.length < 1) {
+            inputStateInvalid(setNameInfo, setNameInput, 'Name is required')
             return
         }
-        if(password.length < 1) {
-            inputStateInvalid(setPasswordInfo,setPasswordInput,'Password is required')
+        if (password.length < 1) {
+            inputStateInvalid(setPasswordInfo, setPasswordInput, 'Password is required')
             return
         }
-        if(passwordConfirm.length < 1) {
-            inputStateInvalid(setPasswordConfirmLabel,setPasswordConfirm,'Confirm password')
+        if (passwordConfirm.length < 1) {
+            inputStateInvalid(setPasswordConfirmLabel, setPasswordConfirm, 'Confirm password')
             return
         }
 
-        try{
+        try {
             toggleSpinner()
-            let resp = await tryRegister(USER_EMAIL,userName,password)
+            let resp = await tryRegister(USER_EMAIL, userName, password)
             toggleSpinner()
 
-            if(resp.message === 'created'){
+            if (resp.message === 'created') {
                 await showOkBlocking()
                 mainForm.removeChild(mainForm.firstElementChild)
                 mainForm.appendChild(mainFormSavedState)
                 let alert = document.createElement('div')
                 alert.innerHTML = '<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">Now you can sign in!</div>'
                 mainForm.firstElementChild.appendChild(alert)
-                
+                await sleep(5000)
+                mainForm.firstElementChild.removeChild(alert)
+
+
             }
 
-            else if(resp.message === 'error'){
+            else if (resp.message === 'error') {
                 console.log('REGISTER_ERROR');
             }
 
-        } catch(err) {
-            console.log('Register error',err.message);
+        } catch (err) {
+            console.log('Register error', err.message);
             return
         }
     })
@@ -257,9 +260,9 @@ function runSighUpForm(){
 
 
 // Sign in form
-function runSighInForm(){
+function runSighInForm() {
     console.log('Show sign in form')
-    
+
     mainFormSavedState = mainForm.removeChild(mainForm.firstElementChild)
     mainForm.appendChild(signInForm)
     const passwordRestore = document.querySelector('#password_restore')
@@ -268,53 +271,71 @@ function runSighInForm(){
     const passwordInput = document.querySelector('#sign_in_password_input')
     initPasswordIcons()
 
-    signInAction.addEventListener('click',async e => {
-        
+    signInAction.addEventListener('click', async e => {
+
         try {
             toggleSpinner()
-            let resp = await tryLogin(USER_EMAIL,passwordInput.value)
+            let resp = await tryLogin(USER_EMAIL, passwordInput.value)
             toggleSpinner()
 
             console.log(resp);
-            if(resp.message === 'password invalid'){
+            if (resp.message === 'password invalid') {
                 console.log('Password invalid. setting state');
-                inputStateInvalid(passwordInfo,passwordInput,'Password is invalid!')
+                inputStateInvalid(passwordInfo, passwordInput, 'Password is invalid!')
                 return
             }
-            inputStateValid(passwordInfo,passwordInput,'')
-            console.log('Authorized',resp);
-            console.log('token',resp.token);
+            inputStateValid(passwordInfo, passwordInput, '')
+            console.log('Authorized', resp);
+            console.log('token', resp.token);
             let token = resp.token
-            localStorage.setItem('token',token)
-            runMainPage()  
-        
-            } catch(err) {
-                console.log('Error in login: ',err.message) 
-                toggleSpinner()
-                return
+            localStorage.setItem('token', token)
+            runMainPage()
+
+        } catch (err) {
+            console.log('Error in login: ', err.message)
+            toggleSpinner()
+            return
         }
-              
+
     })
 
-    passwordRestore.addEventListener('click', e => {
+    passwordRestore.addEventListener('click', async e => {
         e.preventDefault()
         e.stopPropagation()
-        console.log('forgot click');
-        passwordInfo.textContent = 'Remember next time!'
+        const email = {
+            email: USER_EMAIL
+        }
 
+         toggleSpinner()
+         let res = await fetch('/api/auth/passwordReset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(email)
+        }).then(res => res.json())
+          .then(res => console.log(res.message))
+          toggleSpinner()
+
+          let alert = document.createElement('div')
+          alert.innerHTML = '<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">For further instructions check your mailbox</div>'
+          mainForm.firstElementChild.appendChild(alert)
+          await sleep(5000)
+          mainForm.firstElementChild.removeChild(alert)
+    
     })
 }
 
 
 // api call /api/auth/register
-async function tryRegister(email,name,password){
+async function tryRegister(email, name, password) {
     let user = {
-        email : email,
+        email: email,
         password: password,
         name: name
     }
 
-    let resp = await fetch('/api/auth/register',{
+    let resp = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -323,117 +344,114 @@ async function tryRegister(email,name,password){
     }).then(response => response.json())
 
 
-return resp 
+    return resp
 
 }
 
 // api call /api/auth/login
-async function tryLogin(email,password){
+async function tryLogin(email, password) {
     let user = {
-        email : email,
+        email: email,
         password: password
     }
-    
-    let resp = await fetch('/api/auth/login',{
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(user)
-                        }).then(response => response.json())
-                
 
-       return resp 
+    let resp = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    }).then(response => response.json())
+
+
+    return resp
 }
 
 
-function runMainPage(){
+function runMainPage() {
     window.location = window.location + 'main'
 
 }
 
-function runAuthForm(){
-    //window.location 
-}
+
 
 
 // checking user email for valid and exists
-async function checkUserEmailExists(email){
+async function checkUserEmailExists(email) {
     toggleSpinner()
-    const exists =  await isUserEmailExists(email)
+    const exists = await isUserEmailExists(email)
     toggleSpinner()
-    console.log('checkUserEmailExist: exists',exists);
+    console.log('checkUserEmailExist: exists', exists);
     return exists
 }
 
 
 // email input validation
- function validateEmailInput(){
-    
+function validateEmailInput() {
+
     let correct = checkEmail(USER_EMAIL)
 
-    console.log('Email correct:',correct);
-    if(correct){
+    console.log('Email correct:', correct);
+    if (correct) {
         console.log('Email corect, setting state valid');
-        inputStateValid(emailFieldInfo,emailInput,'')
+        inputStateValid(emailFieldInfo, emailInput, '')
         return true
-        
+
 
     } else {
         console.log('Email incorect, setting state invalid');
-        inputStateInvalid(emailFieldInfo,emailInput,'Typo in email')
-        return false  
+        inputStateInvalid(emailFieldInfo, emailInput, 'Typo in email')
+        return false
     }
 }
 
 
 // Check user email exist api /api/authisUserEmailExists
-async function isUserEmailExists(email)
-{
+async function isUserEmailExists(email) {
     let user = {
-        email : email,
+        email: email,
     }
 
     let result = true;
 
-      await fetch('/api/auth/isUserEmailExists',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        }).then(response =>  response.json())
-          .then(res => {
-            if(res.message === 'not exist') {
-                 console.log('Api request: not exist');
-                 result = false 
-                }
-          })
+    await fetch('/api/auth/isUserEmailExists', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    }).then(response => response.json())
+        .then(res => {
+            if (res.message === 'not exist') {
+                console.log('Api request: not exist');
+                result = false
+            }
+        })
 
-        return result
-               
+    return result
+
 }
 
 
-function checkEmail(email){
-    let res =  String(email)
+function checkEmail(email) {
+    let res = String(email)
         .toLocaleLowerCase()
         .match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
-        if(res === null) {
-            console.log('checkEmail: invalid');
-            return false
-        }else {
-            console.log('checkEmail: valid');
-            return true
-        }
+    if (res === null) {
+        console.log('checkEmail: invalid');
+        return false
+    } else {
+        console.log('checkEmail: valid');
+        return true
+    }
 }
 
-function checkPassword(password){
-   return  password.match(/(?=.{8,})(?=.*[0-9])(?=.*[A-Z])/)
-    
+function checkPassword(password) {
+    return password.match(/(?=.{8,})(?=.*[0-9])(?=.*[A-Z])/)
+
 }
 
-function toggleSpinner(){
+function toggleSpinner() {
     spinner.classList.toggle('d-none')
 }
 
@@ -441,7 +459,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function showOkBlocking(){
+async function showOkBlocking() {
     ok.classList.toggle('d-none')
     await sleep(1000)
     ok.classList.toggle('d-none')

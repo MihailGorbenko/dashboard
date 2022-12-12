@@ -3,8 +3,9 @@
     "https_port": 5001,
     "mongoUri": "mongodb+srv://mihago:mihana1234@dashboard.xqweedr.mongodb.net/?retryWrites=true&w=majority",
     "jwtSecret": "jiraffs likes monkeys",
-    "email": "dashmail911@gmail.com",
-    "emailPassword": "!post911",
-    "passwordSalt": 12
-
+    "emailHost": "smtp.gmail.com",
+    "emailPassword": "nmdqarekvpvlbkmi",
+    "emailUser": "dashmail911@gmail.com",
+    "passwordSalt": 12,
+    "baseUrl": "https://dashb.pp.ua"
 }

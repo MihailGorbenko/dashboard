@@ -1,66 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Dev -->
-    <link rel="stylesheet"  href="styles/css/styles.css">  
-    <!-- Production -->
-    <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
 
-    <title>Dashboard</title>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dev -->
+  <link rel="stylesheet" href="styles/css/styles.css">
+  <!-- Production -->
+  <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
+
+  <title>Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
   <!-- Navbar -->
-    <nav class="navbar navbar-dark shadow-lg">
-        <div class="container-fluid justify-content-center justify-content-md-start">
-          <a class="navbar-brand" href="#">
-            <svg class="bi " width="32" height="32" fill="white">
-                <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected" ></use>
-              </svg>
-            dashboard
-            </a>
-        </div>
-      </nav>
-
-      <!-- Main content -->
-
-    <div class="container-fluid">
-        <div class="row mt-3 mt-md-5" id="main_content">
-
-          <!-- Form -->
-
-            <form class="shadow-lg needs-validation " id="main_form" novalidate>
-
-              <div class="main_form_content">
-              <!-- Google button -->
-                <button class="btn btn-outline-success  mb-3 w-100">
-                    <img src="./images/google_logo.svg" class="btn-logo" >
-                     Google
-                </button>
-                <div class="or-block mb-4">
-                   <div class="or"><span>or</span></div>   
-                   <div class="hrow"></div>
-                </div>
-                
-                <!-- Email input -->
-                <div class="input-block mb-3">
-                    <input type="email" class="form-control float-label-input" id="email_input" placeholder=" " required>
-                    <label for="email_input" class="placeholder" >Email</label>
-                    <div id="email_help" class="form-text">We'll never share your email with anyone else.</div>
-                    <div class="pocket-5"></div>
-                </div>
-               
-                  <!-- Buttons -->
-                  <div class="row flex-nowrap justify-content-center">
-                    <button type="button" id="sign_up_button" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
-                    <button type="button" id="sign_in_button" class="btn btn-outline-success shadow-lg">Sign in</button>
-                  </div>
-                </div>
-              </form>    
-        </div>
+  <nav class="navbar navbar-dark shadow-lg">
+    <div class="container-fluid justify-content-center justify-content-md-start">
+      <a class="navbar-brand" href="#">
+        <svg class="bi " width="32" height="32" fill="white">
+          <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected"></use>
+        </svg>
+        dashboard
+      </a>
     </div>
+  </nav>
+
+  <!-- Main content -->
+
+  <div class="container-fluid">
+    <div class="row mt-3 mt-md-5" id="main_content">
+
+      <!-- Form -->
+
+      <form class="shadow-lg needs-validation " id="main_form" novalidate>
+
+        <div class="main_form_content">
+          <!-- Google button -->
+          <button class="btn btn-outline-success  mb-3 w-100">
+            <img src="./images/google_logo.svg" class="btn-logo">
+            Google
+          </button>
+          <div class="or-block mb-4">
+            <div class="or"><span>or</span></div>
+            <div class="hrow"></div>
+          </div>
+
+          <!-- Email input -->
+          <div class="input-block mb-3">
+            <input type="email" class="form-control float-label-input" id="email_input" placeholder=" " required>
+            <label for="email_input" class="placeholder">Email</label>
+            <div id="email_help" class="form-text">We'll never share your email with anyone else.</div>
+            <div class="pocket-5"></div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="row flex-nowrap justify-content-center">
+            <button type="button" id="sign_up_button" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
+            <button type="button" id="sign_in_button" class="btn btn-outline-success shadow-lg">Sign in</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Sign in template -->
 
@@ -68,14 +71,15 @@
     <div class="sign-in-form">
       <div class="form-label mb-3"> Sign in</div>
       <div class="input-block mb-3">
-        <input type="password" class="form-control float-label-input" id="sign_in_password_input" placeholder=" " required>
-        <label for="sign_in_password_input" class="placeholder" >Password</label>
+        <input type="password" class="form-control float-label-input" id="sign_in_password_input" placeholder=" "
+          required>
+        <label for="sign_in_password_input" class="placeholder">Password</label>
         <svg class="bi password-icon" fill="gray">
-          <use class="password-icon-hide"  href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash" ></use>
-          <use class="password-icon-shown hide"  href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye" ></use>
+          <use class="password-icon-hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash"></use>
+          <use class="password-icon-shown hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye"></use>
         </svg>
         <div id="password_help" class="form-text"></div>
-        <div  class="form-text"><a href="#" id="password_restore">Forgot password?</a></div>
+        <div class="form-text"><a href="#" id="password_restore">Forgot password?</a></div>
         <div class="pocket-8"></div>
       </div>
       <div class="row flex-nowrap justify-content-center mt-3">
@@ -83,7 +87,7 @@
       </div>
     </div>
   </template>
-   
+
 
   <!-- Sign up temlate -->
   <template id="sign_up_template">
@@ -96,24 +100,26 @@
         <div class="pocket-5"></div>
       </div>
       <div class="input-block mb-3">
-          <input type="password" class="form-control float-label-input" id="sign_up_password_input" placeholder=" ">
-          <label for="sign_up_password_input" class="placeholder">Password</label>
-          <svg class="bi password-icon" fill="gray">
-            <use class="password-icon-hide"  href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash" ></use>
-            <use class="password-icon-shown hide"  href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye" ></use>
-          </svg>
-          <div id="sign_up_password_help" class="form-text">Must contain as least one A-Z chars,at least one digit, and min 8 symbols length</div> 
-          <div class="pocket-8"></div>
+        <input type="password" class="form-control float-label-input" id="sign_up_password_input" placeholder=" ">
+        <label for="sign_up_password_input" class="placeholder">Password</label>
+        <svg class="bi password-icon" fill="gray">
+          <use class="password-icon-hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash"></use>
+          <use class="password-icon-shown hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye"></use>
+        </svg>
+        <div id="sign_up_password_help" class="form-text">Must contain as least one A-Z chars,at least one digit, and
+          min 8 symbols length</div>
+        <div class="pocket-8"></div>
       </div>
       <div class="input-block mb-3">
-        <input type="password" class="form-control float-label-input" id="sign_up_password_input_confirm" placeholder=" ">
+        <input type="password" class="form-control float-label-input" id="sign_up_password_input_confirm"
+          placeholder=" ">
         <label for="sign_up_password_input_confirm" class="placeholder">Password**</label>
         <svg class="bi password-icon" fill="gray">
-          <use class="password-icon-hide"  href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash" ></use>
-          <use class="password-icon-shown hide"  href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye" ></use>
+          <use class="password-icon-hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash"></use>
+          <use class="password-icon-shown hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye"></use>
         </svg>
         <div id="sign_up_password_confirm_help" class="form-text">Confirm password</div>
-        <div class="pocket-10"></div> 
+        <div class="pocket-10"></div>
       </div>
       <div class="row flex-nowrap justify-content-center mt-3">
         <button type="button" id="sign_up_action" class="btn btn-outline-success shadow-lg me-3">Sign up</button>
@@ -125,21 +131,22 @@
 
   <!-- Spinner -->
   <div id="spinner_bg" class="d-none">
-      <div class="spinner-border text-success" role="status">
-      </div>  
+    <div class="spinner-border text-success" role="status">
+    </div>
   </div>
 
-   <!-- Ok -->
-   <div id="ok_bg" class="d-none">
+  <!-- Ok -->
+  <div id="ok_bg" class="d-none">
     <div class="ok text-success">
       <svg class="bi " width="72" height="72" fill="currentColor">
-        <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#check-lg" ></use>
+        <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#check-lg"></use>
       </svg>
-    </div>  
-</div>
+    </div>
+  </div>
 
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="./js/auth.js"></script>
-   
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <script src="./js/auth.js"></script>
+
 </body>
+
 </html>

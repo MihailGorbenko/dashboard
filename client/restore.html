@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dev -->
+  <link rel="stylesheet" href="styles/css/styles.css">
+  <!-- Production -->
+  <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
+
+  <title>Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark shadow-lg">
+    <div class="container-fluid justify-content-center justify-content-md-start">
+      <a class="navbar-brand" href="#">
+        <svg class="bi " width="32" height="32" fill="white">
+          <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected"></use>
+        </svg>
+        dashboard
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+
+  <div class="container-fluid">
+    <div class="row mt-3 mt-md-5" id="main_content">
+      <!-- Form -->
+      <form class="shadow-lg needs-validation " id="main_form" novalidate>
+        <div class="main_form_content">
+            <div class="form-label mb-3"> Restore</div>
+            <div class="input-block mb-3">
+              <input type="password" class="form-control float-label-input" id="restore_password_input" placeholder=" ">
+              <label for="restore_password_input" class="placeholder">Password</label>
+              <svg class="bi password-icon" fill="gray">
+                <use class="password-icon-hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash"></use>
+                <use class="password-icon-shown hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye"></use>
+              </svg>
+              <div id="restore_password_help" class="form-text">Must contain as least one A-Z chars,at least one digit, and
+                min 8 symbols length</div>
+              <div class="pocket-8"></div>
+            </div>
+            <div class="input-block mb-3">
+              <input type="password" class="form-control float-label-input" id="restore_password_input_confirm"
+                placeholder=" ">
+              <label for="restore_password_input_confirm" class="placeholder">Password**</label>
+              <svg class="bi password-icon" fill="gray">
+                <use class="password-icon-hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye-slash"></use>
+                <use class="password-icon-shown hide" href="../node_modules/bootstrap-icons/bootstrap-icons.svg#eye"></use>
+              </svg>
+              <div id="restore_password_confirm_help" class="form-text">Confirm password</div>
+              <div class="pocket-10"></div>
+            </div>
+            <div class="row flex-nowrap justify-content-center mt-3">
+              <button type="button" id="restore_action" class="btn btn-outline-success shadow-lg me-3">Save</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Spinner -->
+  <div id="spinner_bg" class="d-none">
+    <div class="spinner-border text-success" role="status">
+    </div>
+  </div>
+
+  <!-- Ok -->
+  <div id="ok_bg" class="d-none">
+    <div class="ok text-success">
+      <svg class="bi " width="72" height="72" fill="currentColor">
+        <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#check-lg"></use>
+      </svg>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <script src="./js/restorePassword.js"></script>
+
+</body>
+
+</html>
