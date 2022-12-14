@@ -1,10 +1,11 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const auth = require('../middleware/middleware.auth')
 const cors = require('cors')
 const path = require('path')
-
-const { events } = require('../models/User')
+const resizer = require('../utils/resizeImage')
+const formidable = require('express-formidable')
 const fs = require('fs')
+
 
 
 const router = new Router()
@@ -12,13 +13,13 @@ const router = new Router()
 router.get(
     '/getUserData',
     auth,
-    (req,resp) => {
+    (req, resp) => {
         const userId = req.userId
 
-        try{
+        try {
             //fetch data
-        } catch(err) {
-            
+        } catch (err) {
+
         }
     }
 );
@@ -26,22 +27,52 @@ router.get(
 
 
 router.post(
-    '/resizeImage',
+    '/setProfilePicture',
     [
-        cors()
+        cors(),
+        formidable({uploadDir:path.resolve(__dirname,'../storage/images')})
     ],
-    (req,res) => {
-        try{
-        
+    (req, res) => {
+        try {
+
             const filePath = req.files.image.path
             const fileName = req.files.image.name
-            const newPath = path.join(path.dirname(filePath),fileName)
-            fs.renameSync(filePath,newPath, () => {console.log('image renamed');})
+            const reqFields = req.fields
 
-            
-            return res.status(200).json({ message: '' })
-        } catch(err) {
-            console.log('/resizeImage:',err);
+            const newPath = path.join(path.dirname(filePath), fileName)
+            fs.renameSync(filePath, newPath )
+            console.log('image renamed',newPath);
+            resizer(newPath, reqFields.width, reqFields.heigth)
+            console.log('image resized');
+
+            ///// =>>> save path to user data imgUrl
+
+            return res.status(200).sendFile(newPath)
+        } catch (err) {
+            console.log('/resizeImage:', err);
+            return res.status(400).json({ message: err })
+        }
+    }
+);
+
+router.post(
+    '/resizeImage',
+    [
+        auth,
+        formidable()
+
+    ],
+    (req, res) => {
+        try {
+
+            const filePath = req.files.image.path
+            const reqFields = req.fields
+
+            resizer(newPath, reqFields.width, reqFields.heigth)
+            console.log('image resized');
+            return res.status(200).sendFile(filePath)
+        } catch (err) {
+            console.log('/resizeImage:', err);
             return res.status(400).json({ message: err })
         }
     }

@@ -6,6 +6,7 @@
 
 const logoutButon = document.querySelector('#logout_button')
 const imagePickup = document.querySelector('#image_pickup')
+const profilePicture = document.querySelector('#profile_picture')
 const spinner = document.querySelector('#spinner_bg')
 const ok = document.querySelector('#ok_bg')
 
@@ -16,7 +17,11 @@ startDisplaySystemInfo()
 imagePickup.addEventListener('change', async e => {
     toggleSpinner()
     const newName = getCookie('userId')
-    file = new File([e.target.files[0]], `${newName}`)
+    console.log(e.target.files[0]);
+    let image = e.target.files[0]
+    let sName = image.name.split('.')
+    let ext = '.' + sName[sName.length - 1]
+    file = new File([image], `${newName}${ext}`)
     await setProfilePicture(file)
     toggleSpinner()
 })
@@ -28,27 +33,30 @@ logoutButon.addEventListener('click', e => {
 
 
 async function setProfilePicture(picture) {
-    const img = await resizeImage(picture, 150, 150)
+    const img = await resizeImage(picture, 400, 400)
+    if(img) profilePicture.src = img
 
 }
 
-async function resizeImage(image, heigth = 100, width = 100, filter = '') {
+async function resizeImage(image, heigth = 100, width = 100) {
     const formData = new FormData()
     formData.append('image', image)
     formData.append('heigth', heigth)
     formData.append('width', width)
-    formData.append('filter', filter)
+    let profileImage = null
     try {
-        const resizedImage = await fetch('/api/data/resizeImage', {
+         await fetch('/api/data/setProfilePicture', {
             method: 'POST',
             body: formData
-        }).then(res => res)
+        }).then(res => res.blob())
+          .then(blob => URL.createObjectURL(blob))
+          .then(urlObj => profileImage = urlObj)
 
     } catch (err) {
         console.log('resize fetch error', err.message);
     }
 
-
+    return profileImage
 }
 
 async function startDisplaySystemInfo() {

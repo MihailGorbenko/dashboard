@@ -101,7 +101,7 @@ router.post(
             if (!passwordMatch) {
                 console.log('Invalid password.');
                 return res.status(400).json({ message: 'password invalid' })
-            } 
+            }
             console.log('generating jwt');
             const token = jwt.sign({
                 id: user.id
@@ -112,7 +112,7 @@ router.post(
                 }
             )
             console.log('token:', token);
-            res.cookie('userId', user._id, { httpOnly: true, maxAge: 3600000 })
+            res.cookie('userId', user._id, { secure: true})
             res.status(200).json({ token })
 
 
@@ -221,8 +221,8 @@ router.get(
         if (!passwordToken) {
             return res.status(400).json({ message: 'invalid link or expired' })
         }
-        res.cookie('userId', userId, { httpOnly: true, maxAge: 3600000 })
-        res.cookie('token', token, { httpOnly: true, maxAge: 3600000 })
+        res.cookie('userId', userId, { httpOnly: true, secure: true, maxAge: 3600000 })
+        res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 3600000 })
         res.redirect(`${config.get('baseUrl')}/restore.html`)
 
     })
@@ -264,7 +264,7 @@ router.post(
             await passwordToken.delete()
             console.log('password reset');
             return res.status(200).json({ message: "reset" })
-            
+
 
         } catch (err) {
             res.status(500).json({ message: 'error' })
