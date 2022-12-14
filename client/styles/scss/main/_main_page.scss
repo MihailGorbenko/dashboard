@@ -2,7 +2,37 @@
 
 #main_page {
     background-color: $bg_color;
-    color: var(--bs-success) !important;
-    text-align: center;
     padding-top: 2em;
+
+    button {
+        width: 6em;
+    }
+
+    #profile_picture {
+        height: 150px;
+        width: 150px;
+        box-shadow: 0 0 8px 4px rgba(7, 55, 212, 0.452) ;
+    }
+
+    #edit_picture{
+        position: relative;
+
+        button{
+            pointer-events: none;
+        }
+        svg{
+            pointer-events: none;
+        }
+
+        .form-control{
+            position: absolute;
+            z-index: 999;
+            opacity: 0;
+            top:0;
+            left:0;
+        }
+
+
+
+    }
 }

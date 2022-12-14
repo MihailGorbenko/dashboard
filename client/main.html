@@ -1,27 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-       <!-- Dev -->
-       <link rel="stylesheet"  href="styles/css/styles.css">  
-       <!-- Production -->
-       <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
+    <!-- Dev -->
+    <link rel="stylesheet" href="styles/css/styles.css">
+    <!-- Production -->
+    <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
     <title>Dashboard</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
-    <div id="main_page">
-        <h1>Congratulations!</h1>
-    </div> 
+
+<body id="main_page">
+
+    <div class="container">
+        <div class="row  ">
+            <div class="col col-12 d-flex justify-content-center">
+                <button class="btn btn-outline-primary " id="logout_button">Logout</button>
+            </div>
+        
+            <div class="col col-12 d-flex flex-column align-items-center justify-content-center mt-5" id="profile_picture_block ">
+                <img src="images/placeholder.png" class="rounded-circle mb-4" id="profile_picture">
+                <button id="edit_picture" class="btn btn-primary">
+                    <svg class="bi " width="24" height="24" fill="white">
+                        <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#pencil-fill"></use>
+                      </svg>
+                    <input type="file" class="form-control" accept=".jpg,.png" id="image_pickup" >
+                </button>
+            </div>
+           
+        </div>
+    </div>
 
 
 
-    
+
+  <!-- Spinner -->
+  <div id="spinner_bg" class="d-none">
+    <div class="spinner-border text-success" role="status">
+    </div>
+  </div>
+
+  <!-- Ok -->
+  <div id="ok_bg" class="d-none">
+    <div class="ok text-success">
+      <svg class="bi " width="72" height="72" fill="currentColor">
+        <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#check-lg"></use>
+      </svg>
+    </div>
+  </div>
+
+
+
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="./js/main.js"></script>
 </body>
-</html>
 
+</html>

@@ -112,6 +112,7 @@ router.post(
                 }
             )
             console.log('token:', token);
+            res.cookie('userId', user._id, { httpOnly: true, maxAge: 3600000 })
             res.status(200).json({ token })
 
 

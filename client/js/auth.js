@@ -284,6 +284,7 @@ function runSighInForm() {
                 inputStateInvalid(passwordInfo, passwordInput, 'Password is invalid!')
                 return
             }
+            console.log(document.cookie)
             inputStateValid(passwordInfo, passwordInput, '')
             console.log('Authorized', resp);
             console.log('token', resp.token);

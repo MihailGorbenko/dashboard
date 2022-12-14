@@ -9,6 +9,8 @@ router.get('', (req,res) => {
 
 router.get('/main', (req,res) => {
     console.log('main');
+    const userId = req.cookies.userId
+    res.cookie('userId', userId)
     res.sendFile(path.join(__dirname + '/../client/main.html'))
 })
 
