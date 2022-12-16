@@ -12,7 +12,7 @@
     "pre:deploy": "run-s sass:comp purge:css autoprefix minify:css",
     "server": "export NODE_ENV=production &&  pm2 app.js",
     "server:dev": "pm2 start ecosystem.config.js",
-    "sync:aws": "rsync -rvP -e ssh --exclude=node_modules --exclude=storage --exclude=.git ./ ubuntu@3.75.23.1:/home/ubuntu/dashboard"
+    "sync:aws": "rsync -rvP -e ssh --exclude=node_modules  --exclude=.git ./ ubuntu@3.75.23.1:/home/ubuntu/dashboard"
   },
   "author": "Miha Go",
   "homepage": "https://github.com/MihailGorbenko/dashboard.git",
