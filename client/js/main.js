@@ -2,16 +2,17 @@
 //load user data: if response not authorized: logout
 
 
-// logout: clear local storage, set window.location 
-
 const logoutButon = document.querySelector('#logout_button')
 const imagePickup = document.querySelector('#image_pickup')
 const profilePicture = document.querySelector('#profile_picture')
 const spinner = document.querySelector('#spinner_bg')
 const ok = document.querySelector('#ok_bg')
+const userName= document.querySelector('#user_name')
 
-setUserProfile()
-startDisplaySystemInfo()
+const token = localStorage.token
+loadProfilePicture()
+loadUserProfile()
+loadSystemInfo()
 
 
 imagePickup.addEventListener('change', async e => {
@@ -47,7 +48,13 @@ async function resizeImage(image, heigth = 100, width = 100) {
     try {
          await fetch('/api/data/setProfilePicture', {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp =>{
+            if(resp.status === 401) logout()
+            return resp
         }).then(res => res.blob())
           .then(blob => URL.createObjectURL(blob))
           .then(urlObj => profileImage = urlObj)
@@ -59,19 +66,53 @@ async function resizeImage(image, heigth = 100, width = 100) {
     return profileImage
 }
 
-async function startDisplaySystemInfo() {
+async function loadSystemInfo() {
 
+        fetch('/api/data/getSystemInfo',{
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp =>{
+            if(resp.status === 401) logout()
+            return resp
+        }).then(resp => resp.json())
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+    
+   
 }
 
-async function setUserProfile() {
-    toggleSpinner()
-
-
-    toggleSpinner()
-}
 
 async function loadUserProfile() {
+    fetch('/api/data/getUserProfile',{
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }).then(resp => resp.json())
+      .then(jResp => {
+        if(jResp.status === 401) logout()
+        if(jResp.name) userName.textContent = jResp.name
+      }).catch(err => console.log(err))
 
+}
+
+async function loadProfilePicture(){
+
+        await fetch('/api/data/getUserProfilePicture', {
+           method: 'GET',
+           headers: {
+               Authorization: `Bearer ${token}`
+           }
+       }).then(res => {
+        if(res.status === 401) logout()
+        else return res
+       }).then(res => res.blob())
+         .then(blob => URL.createObjectURL(blob))
+         .then(urlObj => {
+            if(urlObj) profilePicture.src = urlObj
+         }).catch(err => console.log(err))
 
 }
 

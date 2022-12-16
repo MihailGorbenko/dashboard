@@ -1,24 +1,26 @@
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const Log = require('../utils/logger')
 
 module.exports = (req,res,next) => {
+    const log = new Log('Middleware: auth')
     if(req.method === 'OPTIONS')
     {
         return next()
     }
     try {
-        console.log('middleware auth');
+        
+        log.info('Authorize request')
         const token = req.headers.authorization.split(' ')[1]  //Bearer TOKEN
         if(!token) return res.status(401).json({message: 'not authorized'})
-        console.log('got token',token)
 
         const decoded = jwt.verify(token,config.get('jwtSecret'))
         req.userId = decoded.id
-        console.log('dec id', decoded.id);
+        log.info('Authorized')
         next()
 
     } catch(err) {
-        console.log('error verify:',err.message);
+        log.error(err)
         return res.status(401).json({message: 'not authorized'})
     }
 

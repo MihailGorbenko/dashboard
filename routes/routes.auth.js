@@ -10,6 +10,8 @@ const ResetPasswordToken = require('../models/ResetPasswordToken')
 const crypto = require('crypto')
 const sendEmail = require('../utils/sendEmail')
 const path = require('path')
+const Log = require('../utils/logger')
+
 
 
 
@@ -24,11 +26,12 @@ router.post(
         check('name', 'bad name').isString().isAlpha()
     ],
     async (req, res) => {
-
+        const log = new Log('route: /Register')
         try {
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
+                log.error('Input form incorect');
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'incorect'
@@ -39,12 +42,12 @@ router.post(
             const candidateEmail = await User.findOne({ "credentials.email": email })
 
             if (candidateEmail) {
-                console.log('User exists.');
+                log.info(`User ${email} exists`);
                 return res.status(400).json({ message: 'exist' })
             }
-            console.log('No such user.');
+            log.info(`No such user ${email}`);
             const hashedPassword = await bcrypt.hash(password, config.get('passwordSalt'))
-            console.log('Password:', hashedPassword);
+            log.info('Password hashed');
 
             const userData = new UserData({})
 
@@ -60,8 +63,10 @@ router.post(
 
             await userData.save()
             await user.save()
+            log.info(`User ${email} saved`)
             res.status(201).json({ message: 'created' })
-        } catch (e) {
+        } catch (err) {
+            log.error(err);
             res.status(500).json({ message: 'error' })
         }
     })
@@ -74,11 +79,12 @@ router.post(
         check('password', 'bad password').exists()
     ],
     async (req, res) => {
-
+        const log = new Log('route: /Login')
         try {
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
+                log.error('Input form incorect');
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'incorect'
@@ -88,21 +94,21 @@ router.post(
             const { email, password } = req.body
             const user = await User.findOne({ "credentials.email": email })
 
-            console.log('User found');
-            console.log(user.credentials.email);
-
             if (!user) {
-                console.log('User not found.');
+                log.info(`User ${email} not found`);
                 return res.status(400).json({ message: 'not exist' })
             }
+            log.info(`User ${email} found`);
+
             const passwordMatch = await bcrypt.compare(password, user.credentials.password)
-            console.log('password match');
 
             if (!passwordMatch) {
-                console.log('Invalid password.');
+                log.info(`Invalid password`);
                 return res.status(400).json({ message: 'password invalid' })
             }
-            console.log('generating jwt');
+            log.info(`Password match`);
+
+            log.info(`Generating JWT`);
             const token = jwt.sign({
                 id: user.id
             },
@@ -111,12 +117,12 @@ router.post(
                     expiresIn: '1h'
                 }
             )
-            console.log('token:', token);
-            res.cookie('userId', user._id, { secure: true})
+            log.info(`JWT generated`);
+            res.cookie('userId', user._id, { secure: true })
             res.status(200).json({ token })
 
-
-        } catch (e) {
+        } catch (err) {
+            log.error(err);
             res.status(500).json({ message: 'error', errtext: e.message })
         }
     })
@@ -129,10 +135,12 @@ router.post(
         check('email', 'bad email').isEmail(),
     ],
     async (req, res) => {
+        const log = new Log('route: /isUserEmailExists')
         try {
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
+                log.error('Input form incorect');
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'incorect'
@@ -143,14 +151,15 @@ router.post(
             const candidate = await User.findOne({ "credentials.email": email })
 
             if (!candidate) {
-                console.log('User not exists.');
+                log.info(`User ${email} not found`);
                 return res.status(400).json({ message: 'not exist' })
             }
 
-            console.log('User exists.');
+            log.info(`User ${email} found`);
             return res.status(200).json({ message: 'exist' })
 
-        } catch (e) {
+        } catch (err) {
+            log.error(err);
             res.status(500).json({ message: 'error' })
         }
 
@@ -159,7 +168,8 @@ router.post(
 
 //   /api/auth/validateToken
 router.post('/validateToken', auth, (req, res) => {
-    console.log('/validate token token valid');
+    const log = new Log('route: /validateToken')
+    log.info(`JWT token valid`);
     return res.status(200).json({ message: 'token valid' })
 })
 
@@ -169,10 +179,12 @@ router.post(
         check('email', 'bad email').isEmail(),
     ],
     async (req, res) => {
+        const log = new Log('route: /passwordReset')
         try {
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
+                log.error('Input form incorect');
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'incorect'
@@ -182,12 +194,14 @@ router.post(
             const user = await User.findOne({ "credentials.email": email })
 
             if (!user) {
-                console.log('User not exists.');
+                log.info(`User ${email} not found`);
                 return res.status(400).json({ message: 'not exist' })
             }
-            console.log('resetPassword: user found', user.credentials.name);
+            log.info(`User ${email} found`);
+
             let passwordToken = await ResetPasswordToken.findOne({ userId: user._id })
             if (!passwordToken) {
+                log.info(`Reset Password Token not found. Generating...`);
                 passwordToken = await new ResetPasswordToken({
                     userId: user._id,
                     token: crypto.randomBytes(32).toString("hex")
@@ -196,36 +210,51 @@ router.post(
 
             const link = `${config.get('baseUrl')}/api/auth/passwordResetForm/${user._id}/${passwordToken.token}`
             await sendEmail(user.credentials.email, "Password reset", link)
+            log.info(`Email sent to ${user.credentials.email}`);
 
             return res.status(200).json({ mesage: "sent" })
 
         } catch (err) {
+            log.error(err);
             res.status(500).json({ message: 'error' })
-            console.log('resetPassword: ', err, err.message);
         }
     })
+
 
 router.get(
     '/passwordResetForm/:userId/:token',
     async (req, res) => {
-        const userId = req.params.userId
-        const token = req.params.token
-        const user = await User.findById(userId)
-        if (!user) {
-            return res.status(400).json({ message: 'invalid link or expired' })
-        }
-        const passwordToken = await ResetPasswordToken.findOne({
-            userId: userId,
-            token: token
-        })
-        if (!passwordToken) {
-            return res.status(400).json({ message: 'invalid link or expired' })
-        }
-        res.cookie('userId', userId, { httpOnly: true, secure: true, maxAge: 3600000 })
-        res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 3600000 })
-        res.redirect(`${config.get('baseUrl')}/restore.html`)
+        const log = new Log('route: /passwordResetForm/:userId/:token')
+        try {
 
+            const userId = req.params.userId
+            const token = req.params.token
+            const user = await User.findById(userId)
+            if (!user) {
+                log.info(`User ${userId} not found`);
+                return res.status(400).json({ message: 'invalid link or expired' })
+            }
+            const passwordToken = await ResetPasswordToken.findOne({
+                userId: userId,
+                token: token
+            })
+            if (!passwordToken) {
+                log.info(`Restore Password Token not found`);
+                return res.status(400).json({ message: 'invalid link or expired' })
+            }
+            log.info(`Restore Password Token found`);
+
+            res.cookie('userId', userId, { httpOnly: true, secure: true, maxAge: 3600000 })
+            res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 3600000 })
+
+            log.info(`Redirecting to reset form`);
+            res.redirect(`${config.get('baseUrl')}/restore.html`)
+        } catch (err) {
+            log.error(err);
+            res.status(500).json({ message: 'error' })
+        }
     })
+
 
 router.post(
     '/passwordResetFromForm',
@@ -233,10 +262,12 @@ router.post(
         check('password', 'bad password').exists()
     ],
     async (req, res) => {
+        const log = new Log('route: /passwordResetFromForm')
         try {
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
+                log.error('Input form incorect');
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'incorect'
@@ -247,26 +278,30 @@ router.post(
 
             const user = await User.findById(userId)
             if (!user) {
+                log.info(`User ${userId} not found`);
                 return res.status(400).json({ message: 'invalid link or expired' })
             }
+            log.info(`User ${userId} found`);
             const passwordToken = await ResetPasswordToken.findOne({
                 userId: userId,
                 token: token
             })
             if (!passwordToken) {
+                log.info(`Restore Password Token not found`);
                 return res.status(400).json({ message: 'invalid link or expired' })
             }
-
+            log.info(`Restore Password Token found`);
 
             const hashedPassword = await bcrypt.hash(req.body.password, config.get('passwordSalt'))
             user.credentials.password = hashedPassword
             await user.save()
             await passwordToken.delete()
-            console.log('password reset');
+            log.info('Password reset');
             return res.status(200).json({ message: "reset" })
 
 
         } catch (err) {
+            log.error(err);
             res.status(500).json({ message: 'error' })
         }
 

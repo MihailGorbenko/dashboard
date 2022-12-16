@@ -5,21 +5,84 @@ const path = require('path')
 const resizer = require('../utils/resizeImage')
 const formidable = require('express-formidable')
 const fs = require('fs')
+const Log = require('../utils/logger')
+const UserData = require('../models/UserData')
+const User = require('../models/User')
+const os = require('os');
 
 
 
 const router = new Router()
 
 router.get(
-    '/getUserData',
+    '/getUserProfile',
     auth,
-    (req, resp) => {
+    async (req, res) => {
+        const log = new Log('route: /getUserProfile')
         const userId = req.userId
 
         try {
-            //fetch data
+            const user = await User.findById(userId)
+            if (!user) {
+                log.error(`user not found: userId > ${userId}`)
+                res.status(400).json({ message: "user not found" })
+            }
+            log.info(`User: ${user.credentials.email}`)
+            res.status(200).json({ name: user.credentials.name })
         } catch (err) {
+            log.error(err)
+            res.status(400).json({ message: err.message })
+        }
+    }
+);
 
+router.get(
+    '/getUserProfilePicture',
+    auth,
+    async (req, res) => {
+        const userId = req.userId
+        const log = new Log('route: /getUserProfilePicture')
+        try {
+            const userData = await UserData.findOne({ user: userId })
+            if (!userData) {
+                log.error(`User data not found: userId > ${userId}`)
+                res.status(400).json({ message: "image not found" })
+            }
+            const imageUri = userData.imageUri
+            if(imageUri){
+                const imagePath = path.join(path.resolve(__dirname, '../'), imageUri)
+                log.info(`sending image: ${imageUri}`)
+                res.status(200).sendFile(imagePath)
+            }
+        } catch (err) {
+            log.error(err)
+            res.status(400).json({ message: err.message })
+        }
+    }
+);
+
+router.get(
+    '/getSystemInfo',
+    (req, res) => {
+        const log = new Log('route: /getSystemInfo')
+
+        try {
+            log.info('Sending system info...')
+            return res.status(200).json({
+                pArch: os.arch(),
+                cpus: os.cpus(),
+                freemem: os.freemem(),
+                hostname: os.hostname(),
+                loadAvg: os.loadavg(),
+                platform: os.platform(),
+                release: os.release(),
+                totalmem: os.totalmem(),
+                type: os.type(),
+                uptime: os.uptime()
+            })
+        } catch (err) {
+            log.error(err)
+            res.status(400).json({ message: err.message })
         }
     }
 );
@@ -29,27 +92,39 @@ router.get(
 router.post(
     '/setProfilePicture',
     [
-        cors(),
-        formidable({uploadDir:path.resolve(__dirname,'../storage/images')})
+        formidable({ uploadDir: path.resolve(__dirname, '../storage/images') }),
+        auth
     ],
-    (req, res) => {
+    async (req, res) => {
+        const log = new Log('route: /setProfilePicture')
         try {
 
             const filePath = req.files.image.path
             const fileName = req.files.image.name
             const reqFields = req.fields
+            log.info(`Got image  > ${fileName}`)
 
             const newPath = path.join(path.dirname(filePath), fileName)
-            fs.renameSync(filePath, newPath )
-            console.log('image renamed',newPath);
+            fs.renameSync(filePath, newPath)
+            log.info(`Image renamed`)
             resizer(newPath, reqFields.width, reqFields.heigth)
-            console.log('image resized');
+            log.info(`Image resized`)
 
-            ///// =>>> save path to user data imgUrl
+            userId = req.userId
+            log.info(`Got user id > ${userId}`)
+
+            const userData = await UserData.findOne({ user: userId })
+            if (!userData) {
+                log.error('user data not found')
+                return res.status(400).json({ message: 'error adding image' })
+            }
+            userData.imageUri = `storage/images/${fileName}`
+            await userData.save()
+            log.info('UserData obj saved')
 
             return res.status(200).sendFile(newPath)
         } catch (err) {
-            console.log('/resizeImage:', err);
+            log.error(err)
             return res.status(400).json({ message: err })
         }
     }
@@ -63,16 +138,16 @@ router.post(
 
     ],
     (req, res) => {
+        const log = new Log('route: /resizeImage')
         try {
 
             const filePath = req.files.image.path
             const reqFields = req.fields
 
-            resizer(newPath, reqFields.width, reqFields.heigth)
-            console.log('image resized');
+
             return res.status(200).sendFile(filePath)
         } catch (err) {
-            console.log('/resizeImage:', err);
+            log.err(err)
             return res.status(400).json({ message: err })
         }
     }

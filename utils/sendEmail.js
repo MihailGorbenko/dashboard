@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer')
 const config = require('config')
+const Log = require('./logger')
+const log = new Log('SendEmail')
 
 const sendEmail = async (email, subject, text) => {
     try {
@@ -18,10 +20,10 @@ const sendEmail = async (email, subject, text) => {
             subject: subject,
             text: text
         })
-        console.log('email sent succesfully')
+        log.info('Email sent succesfully')
 
     } catch (err) {
-        console.log('email not sent', err.message)
+        log.error(`Email not sent > ${err.message}`)
     }
 }
 

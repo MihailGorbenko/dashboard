@@ -6,13 +6,13 @@
   "scripts": {
     "sass:w": "sass client/styles/scss/base.scss client/styles/css/styles.css --watch --load-path=node_modules/bootstrap/scss/",
     "sass:comp": "sass client/styles/scss/base.scss client/styles/css/styles.css --load-path=node_modules/bootstrap/scss/",
-    "server:dev": "pm2-dev app.js",
     "minify:css": "css-minify --file client/styles/css/styles.css -o client/styles/dist",
     "purge:css": "purgecss -v -font -keyframes --css client/styles/css/styles.css --content client/*.html client/js/*.js --output client/styles/css/",
     "autoprefix": "npx postcss client/styles/css/styles.css  --use autoprefixer -d client/styles/css/",
     "pre:deploy": "run-s sass:comp purge:css autoprefix minify:css",
-    "server": "export NODE_ENV=production &&  pm2 start app.js",
-    "sync:aws": "rsync -rvP -e ssh --exclude=node_modules --exclude=.git ./ ubuntu@3.75.23.1:/home/ubuntu/dashboard"
+    "server": "export NODE_ENV=production &&  pm2 app.js",
+    "server:dev": "pm2 start ecosystem.config.js",
+    "sync:aws": "rsync -rvP -e ssh --exclude=node_modules --exclude=storage --exclude=.git ./ ubuntu@3.75.23.1:/home/ubuntu/dashboard"
   },
   "author": "Miha Go",
   "homepage": "https://github.com/MihailGorbenko/dashboard.git",

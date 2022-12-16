@@ -3,12 +3,10 @@ const path = require('path')
 const router = new Router()
 
 router.get('', (req,res) => {
-    console.log('auth');
     res.sendFile(path.join(__dirname + '/../client/auth.html'))
 })
 
 router.get('/main', (req,res) => {
-    console.log('main');
     const userId = req.cookies.userId
     res.cookie('userId', userId)
     res.sendFile(path.join(__dirname + '/../client/main.html'))

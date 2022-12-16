@@ -8,6 +8,8 @@ const mongoose = require('mongoose')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
 const favicon = require('serve-favicon')
+const Log = require('./utils/logger')
+const log = new Log('app ')
 
 
 
@@ -38,24 +40,20 @@ async function start() {
         mongoose.connect(config.get('mongoUri'), {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        }).then(() => console.log('mongo connected'))
+        }).then(() => log.info('Mongo connected'))
 
-        http.createServer(app).listen(HTTP_PORT, () => { console.log(`Server listening port ${HTTP_PORT}`); })
+        http.createServer(app).listen(HTTP_PORT, () => { log.info(`Server listening port ${HTTP_PORT}`); })
 
         https.createServer({
             key: fs.readFileSync('./sslcert/privkey.pem'),
             cert: fs.readFileSync('./sslcert/fullchain.pem')
-        }, app).listen(HTTPS_PORT, () => { console.log(`Server listening port ${HTTPS_PORT}`); })
+        }, app).listen(HTTPS_PORT, () => { log.info(`Server listening port ${HTTPS_PORT}`) })
 
     } catch (e) {
-        console.log('Server error:', e.message)
-        fs.writeFileSync('server.log', e.message)
+        log.error(`Server error: ${e.message}`)
         process.exit(1)
     }
 
 }
-
-
-
 
 start()
