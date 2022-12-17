@@ -10,7 +10,7 @@
     "purge:css": "purgecss -v -font -keyframes --css client/styles/css/styles.css --content client/*.html client/js/*.js --output client/styles/css/",
     "autoprefix": "npx postcss client/styles/css/styles.css  --use autoprefixer -d client/styles/css/",
     "pre:deploy": "run-s sass:comp purge:css autoprefix minify:css",
-    "server": "export NODE_ENV=production &&  pm2 app.js",
+    "server": "export NODE_ENV=production &&  pm2 start app.js",
     "server:dev": "pm2 start ecosystem.config.js",
     "sync:aws": "rsync -rvP -e ssh --exclude=node_modules  --exclude=.git ./ ubuntu@3.75.23.1:/home/ubuntu/dashboard"
   },
