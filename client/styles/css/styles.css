@@ -10955,9 +10955,6 @@ body #main_content form .input-block .pocket-10 {
   background-color: #252830;
   height: 4.3em;
 }
-#main_page button {
-  width: 6em;
-}
 #main_page #profile_picture {
   height: 150px;
   width: 150px;
@@ -10989,7 +10986,7 @@ body #main_content form .input-block .pocket-10 {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.712);
-  z-index: 999;
+  z-index: 1050;
   width: 100vw;
   height: 120vh;
 }
