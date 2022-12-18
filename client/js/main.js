@@ -14,6 +14,10 @@ loadProfilePicture()
 loadUserProfile()
 loadSystemInfo()
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+
 
 imagePickup.addEventListener('change', async e => {
     toggleSpinner()
@@ -75,6 +79,7 @@ async function loadSystemInfo() {
             }
         }).then(resp =>{
             if(resp.status === 401) logout()
+            if(resp.status === 404) return
             return resp
         }).then(resp => resp.json())
           .then(res => console.log(res))
@@ -93,6 +98,7 @@ async function loadUserProfile() {
     }).then(resp => resp.json())
       .then(jResp => {
         if(jResp.status === 401) logout()
+        if(jResp.status === 404) return
         if(jResp.name) userName.textContent = jResp.name
       }).catch(err => console.log(err))
 
@@ -106,9 +112,14 @@ async function loadProfilePicture(){
                Authorization: `Bearer ${token}`
            }
        }).then(res => {
-        if(res.status === 401) logout()
+        if(res.status === 401) {
+            logout()
+            return res
+        }
+        if(res.status == 404) return
         else return res
-       }).then(res => res.blob())
+
+       }).then(resp => resp.blob())
          .then(blob => URL.createObjectURL(blob))
          .then(urlObj => {
             if(urlObj) profilePicture.src = urlObj

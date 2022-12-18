@@ -10947,7 +10947,13 @@ body #main_content form .input-block .pocket-10 {
 
 #main_page {
   background-color: #1b1e24;
-  padding-top: 2em;
+}
+#main_page .navbar-brand {
+  margin-left: 0.5em;
+}
+#main_page .offcanvas-header {
+  background-color: #252830;
+  height: 4.3em;
 }
 #main_page button {
   width: 6em;
@@ -10957,21 +10963,23 @@ body #main_content form .input-block .pocket-10 {
   width: 150px;
   box-shadow: 0 0 8px 4px rgba(7, 55, 212, 0.452);
 }
-#main_page #edit_picture {
+#main_page .edit-picture {
   position: relative;
 }
-#main_page #edit_picture button {
-  pointer-events: none;
-}
-#main_page #edit_picture svg {
-  pointer-events: none;
-}
-#main_page #edit_picture .form-control {
+#main_page .edit-picture .form-control {
+  height: 150px;
+  width: 150px;
   position: absolute;
   z-index: 999;
   opacity: 0;
   top: 0;
   left: 0;
+}
+#main_page .edit-picture .form-control:hover ~ #profile_picture {
+  box-shadow: 0 0 16px 4px rgba(7, 212, 75, 0.452);
+}
+#main_page .custom-tooltip {
+  --bs-tooltip-bg: var(--bs-primary);
 }
 
 #spinner_bg {

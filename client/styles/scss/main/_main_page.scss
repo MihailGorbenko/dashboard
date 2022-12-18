@@ -2,37 +2,50 @@
 
 #main_page {
     background-color: $bg_color;
-    padding-top: 2em;
+
+    .navbar-brand{
+        margin-left: 0.5em;
+    }
+
+    .offcanvas-header {
+        background-color: $nav_color;
+        height: 4.3em;
+    }
 
     button {
         width: 6em;
     }
 
+
     #profile_picture {
         height: 150px;
         width: 150px;
         box-shadow: 0 0 8px 4px rgba(7, 55, 212, 0.452) ;
+        
     }
 
-    #edit_picture{
+    .edit-picture{
         position: relative;
 
-        button{
-            pointer-events: none;
-        }
-        svg{
-            pointer-events: none;
-        }
-
+        
         .form-control{
+            height: 150px;
+            width: 150px;
             position: absolute;
             z-index: 999;
             opacity: 0;
             top:0;
             left:0;
+            &:hover ~ #profile_picture {
+                box-shadow: 0 0 16px 4px rgba(7, 212, 75, 0.452);
+            }
         }
 
 
 
     }
+    .custom-tooltip {
+        --bs-tooltip-bg: var(--bs-primary);
+      }
+      
 }
