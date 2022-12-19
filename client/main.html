@@ -2,80 +2,133 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Dev -->
-    <link rel="stylesheet" href="styles/css/styles.css">
-    <!-- Production -->
-    <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
-    <title>Dashboard</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dev -->
+  <link rel="stylesheet" href="styles/css/styles.css">
+  <!-- Production -->
+  <!-- <link rel="stylesheet"  href="styles/dist/styles.min.css"> -->
+  <title>Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body id="main_page">
+
+  <!-- Navigation -->
+
   <nav class="navbar navbar-dark fixed-top  shadow-lg">
     <div class="container-fluid">
-          <div class="navbar-brand">
+      <div class="navbar-brand">
+        <svg class="bi " width="32" height="32" fill="white">
+          <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected"></use>
+        </svg>
+        dashboard
+        </a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Side panel -->
+
+      <div class="offcanvas offcanvas-start text-bg-dark show" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+
+        <!-- Side panel header -->
+        <div class="offcanvas-header">
+          <div class="navbar-brand" data-bs-dismiss="offcanvas">
             <svg class="bi " width="32" height="32" fill="white">
               <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected"></use>
             </svg>
             dashboard
-          </a>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="offcanvas offcanvas-start text-bg-dark show" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-          <div class="offcanvas-header">
-            <div class="navbar-brand" data-bs-dismiss="offcanvas">
-              <svg class="bi " width="32" height="32" fill="white">
-                <use href="../node_modules/bootstrap-icons/bootstrap-icons.svg#gear-wide-connected"></use>
-              </svg>
-              dashboard
             </a>
           </div>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <!-- Side panel body -->
+        <div class="offcanvas-body">
+          <div class="col col-12 d-flex flex-row " id="profile_picture_block ">
+            <div class="edit-picture">
+              <input type="file" class="form-control" accept=".jpg" id="image_pickup" title="" data-bs-toggle="tooltip"
+                data-bs-title="Tap to change profile picture" data-bs-custom-class="custom-tooltip">
+              <img src="images/placeholder.png" class="rounded-circle mb-2 ms-1" id="profile_picture">
+            </div>
           </div>
-          <div class="offcanvas-body">
-            <div class="col col-12 d-flex flex-row " id="profile_picture_block ">
-              <div class="edit-picture">
-                <input type="file" class="form-control" accept=".jpg" id="image_pickup" title ="" data-bs-toggle="tooltip" data-bs-title="Tap to change profile picture" data-bs-custom-class="custom-tooltip" >
-                <img src="images/placeholder.png" class="rounded-circle mb-2 ms-1" id="profile_picture">
-              </div>
-                
+
+          <div class="flex-column" id="name_column">
+            <h2 id="user_name" class="text-white  ms-1 h1">Name</h2>
+          </div>
+
+          <!-- Side panel nav -->
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li>
+              <hr class="nav-divider">
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" data-bs-dismiss="offcanvas" href="#">
+                Home
+              </a>
+            </li>
+            <li class="nav-item dropdown mb-3">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Services
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li>
+                  <a class="dropdown-item"  href="#" data-bs-dismiss="offcanvas">
+                  Image resizing
+                  <span class="badge rounded-pill text-bg-primary shadow-lg" id="sidebar_nav_badge">
+                    New
+                  </span>
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item disabled" href="#">Feature action</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-outline-primary w-100" id="logout_button">
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+
+  <div class="container shadow-lg" id="main_container">
+    <div class="row">
+      <div class="col">
+        <h1>Server status</h1>
+        <hr/>
+        <div class="row flex-column w-100 ">
+          <div class="card " id="full_info_card">
+            <div class="card-body">
+              <h5 class="card-title">Total Info</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
             </div>
-            <div class="flex-column" id="name_column">
-              <h2 id="user_name" class="text-white  ms-1 h1">Name</h2>
+          
+          </div>
+          <div class="card " id="memory_usage_card">
+            <div class="card-body">
+              <h5 class="card-title">Memory Usage</h5>
+              <div class="chart" data-percent="42"> </div>
             </div>
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li>
-                <hr class="nav-divider">
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" data-bs-dismiss="offcanvas" href="#">Home</a>
-              </li>
-              <li class="nav-item dropdown mb-3">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 Services
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="#">Image resizing</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item disabled" href="#">Feature action</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                  <button class="btn btn-outline-primary w-100" id="logout_button">Logout</button>
-              </li>
-            </ul>
+          
+          </div>
+        </div>
+    
       </div>
     </div>
-  </nav>
-  
+   
+  </div>
+
 
   <!-- Spinner -->
   <div id="spinner_bg" class="d-none">
@@ -94,8 +147,10 @@
 
 
 
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="./js/main.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <script src="./js/easypiechart.min.js"></script>
+  <script src="./js/main.js"></script>
+
 </body>
 
 </html>

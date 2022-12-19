@@ -17,7 +17,10 @@ loadSystemInfo()
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-
+var element = document.querySelector('.chart');
+    new EasyPieChart(element, {
+        // your options goes here
+    });
 
 imagePickup.addEventListener('change', async e => {
     toggleSpinner()
