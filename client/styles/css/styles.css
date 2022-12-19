@@ -6988,7 +6988,7 @@ textarea.form-control-lg {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
-.shadow-lg, #main_page #main_container .card {
+.shadow-lg {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
@@ -10945,9 +10945,6 @@ body #main_content form .input-block .pocket-10 {
   right: 2em;
 }
 
-#main_page {
-  background-color: rgba(210, 211, 195, 0.6588235294);
-}
 #main_page #sidebar_nav_badge {
   margin-left: 14em;
 }
@@ -10983,32 +10980,99 @@ body #main_content form .input-block .pocket-10 {
   --bs-tooltip-bg: var(--bs-primary);
 }
 #main_page #main_container {
-  background-color: whitesmoke;
+  background-color: rgba(207, 214, 213, 0.918);
   margin-top: 4em;
   height: 100vh;
 }
 #main_page #main_container h1, #main_page #main_container .h1 {
   text-align: center;
   margin-top: 1em;
-  color: gray;
+  color: rgba(61, 60, 60, 0.726);
 }
 #main_page #main_container .card {
+  box-shadow: 0 0 10px 8px rgba(14, 13, 13, 0.363);
   margin-bottom: 2em;
   background-color: #1b1e24;
-  width: 50vw;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+}
+#main_page #main_container .list-group {
+  background-color: #1b1e24;
+  box-shadow: 0 0 6px 4px rgba(7, 6, 6, 0.144);
+  margin: 3vw;
+}
+#main_page #main_container .list-group .title {
+  text-align: center;
+  font-size: 2em;
+  color: var(--bs-green);
+}
+#main_page #main_container .list-group li {
+  background-color: #252830;
+  color: rgb(196, 190, 190);
+  font-size: 1em;
+  border-bottom-color: rgba(245, 245, 245, 0.096);
+  position: relative;
+}
+#main_page #main_container .list-group li > span {
+  position: absolute;
+  right: 1.5em;
+  font-weight: 300;
+}
+#main_page #main_container .list-group li .badge {
+  border: 1px solid var(--bs-green);
+  background-color: transparent !important;
+}
+#main_page #main_container .list-group li .badge span {
+  font-size: 1.2em;
+  font-weight: 100;
+  background-color: transparent;
+  border-color: var(--bs-green);
+}
+#main_page #main_container #memory_usage_card {
+  display: flex;
+  flex-flow: column;
+}
+#main_page #main_container #memory_usage_card .title {
+  font-size: 1.2rem;
+  text-align: left;
 }
 #main_page #main_container #memory_usage_card .chart {
+  width: max-content;
   margin-left: auto;
   margin-right: auto;
-  width: 60%;
-  height: 15em;
-  display: flex;
-  justify-content: center;
+  position: relative;
+  display: block;
+  margin-bottom: 2em;
+  margin-top: 2em;
+  text-align: center;
+}
+#main_page #main_container #memory_usage_card .chart canvas {
+  position: relative;
+}
+#main_page #main_container #memory_usage_card .chart .percent {
+  color: rgba(245, 245, 245, 0.712);
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin-top: 33%;
+  font-size: 3.5em;
+  z-index: 2;
+}
+#main_page #main_container #memory_usage_card .chart .percent::after {
+  content: "%";
+  font-size: 2rem;
+}
+#main_page #main_container #memory_usage_card h2, #main_page #main_container #memory_usage_card .h2 {
+  color: var(--bs-green);
+  font-weight: 400;
+  margin-left: 1em;
+  margin-top: 0.5em;
 }
 #main_page #main_container hr {
   margin-bottom: 2em;
+  color: gray;
 }
 
 #spinner_bg {

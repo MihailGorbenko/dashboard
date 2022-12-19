@@ -17,11 +17,17 @@ signUpForm.innerHTML = signUpTemplate.innerHTML
 let signInForm = document.createElement('div')
 signInForm.innerHTML = signInTemplate.innerHTML
 
+document.enterListener = signInButton
+
 
 
 // preventing enter press actions
 mainForm.addEventListener('keypress', (e) => {
-    if (e.keyCode == 13) e.preventDefault()
+    if (e.keyCode == 13){
+        e.preventDefault()
+        document.enterListener.dispatchEvent(new Event('click'))
+        
+    } 
 })
 
 tryRestoreSession()
@@ -174,6 +180,7 @@ function runSighUpForm() {
     const setPasswordInfo = document.querySelector('#sign_up_password_help')
     const setNameInfo = document.querySelector('#sign_up_name_help')
     const setPasswordConfirmLabel = document.querySelector('#sign_up_password_confirm_help')
+    document.enterListener = signUpAction
     initPasswordIcons()
 
     setNameInput.addEventListener('blur', e => {
@@ -236,6 +243,7 @@ function runSighUpForm() {
                 await showOkBlocking()
                 mainForm.removeChild(mainForm.firstElementChild)
                 mainForm.appendChild(mainFormSavedState)
+                document.enterListener = signInButton
                 let alert = document.createElement('div')
                 alert.innerHTML = '<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">Now you can sign in!</div>'
                 mainForm.firstElementChild.appendChild(alert)
@@ -269,6 +277,8 @@ function runSighInForm() {
     const passwordInfo = document.querySelector('#password_help')
     const signInAction = document.querySelector('#sign_in_action')
     const passwordInput = document.querySelector('#sign_in_password_input')
+    document.enterListener = signInAction
+
     initPasswordIcons()
 
     signInAction.addEventListener('click', async e => {

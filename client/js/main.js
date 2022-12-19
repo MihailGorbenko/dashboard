@@ -1,6 +1,4 @@
 
-//load user data: if response not authorized: logout
-
 
 const logoutButon = document.querySelector('#logout_button')
 const imagePickup = document.querySelector('#image_pickup')
@@ -8,6 +6,18 @@ const profilePicture = document.querySelector('#profile_picture')
 const spinner = document.querySelector('#spinner_bg')
 const ok = document.querySelector('#ok_bg')
 const userName= document.querySelector('#user_name')
+
+Number.prototype.formatBytes = function() {
+    var units = ['B', 'KB', 'MB', 'GB', 'TB'],
+        bytes = this,
+        i;
+ 
+    for (i = 0; bytes >= 1024 && i < 4; i++) {
+        bytes /= 1024;
+    }
+ 
+    return bytes.toFixed(1) + ' ' + units[i];
+}
 
 const token = localStorage.token
 loadProfilePicture()
@@ -17,10 +27,23 @@ loadSystemInfo()
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-var element = document.querySelector('.chart');
-    new EasyPieChart(element, {
-        // your options goes here
-    });
+
+ window.memoryChart = new EasyPieChart(document.querySelector('.chart'), {
+    easing: 'easeOutElastic',
+    delay: 3000,
+    size: 250,
+    barColor: '#198754',
+    trackColor: '#5fe6bedb',
+    scaleColor: false,
+    lineWidth: 22,
+    trackWidth: 16,
+    lineCap: 'butt',
+    onStep: function(from, to, percent) {
+        this.el.children[0].innerHTML = Math.round(percent);
+    }
+})
+
+    
 
 imagePickup.addEventListener('change', async e => {
     toggleSpinner()
@@ -85,10 +108,47 @@ async function loadSystemInfo() {
             if(resp.status === 404) return
             return resp
         }).then(resp => resp.json())
-          .then(res => console.log(res))
+          .then(res => bindSystemDataFields(res))
           .catch(err => console.log(err))
     
    
+}
+
+function bindSystemDataFields(data){
+    const infoPlatform = document.querySelector('#info_platform')
+    const infoHostname = document.querySelector('#info_hostname')
+    const infoRelease = document.querySelector('#info_release')
+    const infoArch = document.querySelector('#info_arch')
+    const infoUptime = document.querySelector('#info_uptime')
+    const infoTotalmem = document.querySelector('#info_totalmem')
+    const infoFreemem = document.querySelector('#info_freemem')
+    infoPlatform.textContent =  data.platform
+    infoHostname.textContent = data.hostname
+    infoRelease.textContent = data.release
+    infoArch.textContent = data.pArch
+    infoUptime.textContent = convertToTimeString(data.uptime)
+    infoFreemem.textContent = Number.parseInt(data.freemem).formatBytes()
+    infoTotalmem.textContent =   Number.parseInt(data.totalmem).formatBytes()
+    window.memoryChart.update(100 - (data.totalmem / data.freemem))
+
+}
+
+
+function convertToTimeString(secs){
+    let hours = secs / 3600
+    let minutes = (hours % 1) * 60
+    let seconds = (minutes % 1) * 60
+    hours = Math.floor(hours)
+    minutes = Math.floor(minutes)
+    seconds = Math.floor(seconds)
+
+    return  `${(hours > 0) ? `${hours}h` : ''} ` +
+            `${(minutes > 0) ? `${minutes}m` : ''} `+
+            `${seconds}s`
+}
+
+function formatBytes(bytes){
+   return ['B','Kb','Mb','Gb','Tb'][Math.floor(Math.log2(bytes)/10)]
 }
 
 

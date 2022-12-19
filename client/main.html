@@ -26,13 +26,15 @@
         dashboard
         </a>
       </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+        aria-controls="offcanvasDarkNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <!-- Side panel -->
 
-      <div class="offcanvas offcanvas-start text-bg-dark show" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas offcanvas-start text-bg-dark " tabindex="-1" id="offcanvasDarkNavbar"
+        aria-labelledby="offcanvasDarkNavbarLabel">
 
         <!-- Side panel header -->
         <div class="offcanvas-header">
@@ -43,7 +45,8 @@
             dashboard
             </a>
           </div>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
         </div>
 
         <!-- Side panel body -->
@@ -71,16 +74,17 @@
               </a>
             </li>
             <li class="nav-item dropdown mb-3">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 Services
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li>
-                  <a class="dropdown-item"  href="#" data-bs-dismiss="offcanvas">
-                  Image resizing
-                  <span class="badge rounded-pill text-bg-primary shadow-lg" id="sidebar_nav_badge">
-                    New
-                  </span>
+                  <a class="dropdown-item" href="#" data-bs-dismiss="offcanvas">
+                    Image resizing
+                    <span class="badge rounded-pill text-bg-primary shadow-lg" id="sidebar_nav_badge">
+                      New
+                    </span>
                   </a>
                 </li>
                 <li>
@@ -100,33 +104,78 @@
   </nav>
 
   <div class="container shadow-lg" id="main_container">
-    <div class="row">
-      <div class="col">
+    <div class="row justify-content-center">
+      <div class="col col-lg-8 d-flex flex-column">
         <h1>Server status</h1>
-        <hr/>
-        <div class="row flex-column w-100 ">
-          <div class="card " id="full_info_card">
-            <div class="card-body">
-              <h5 class="card-title">Total Info</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
+        <hr />
+        <div class="row flex-column">
+            <div class="card " id="full_info_card">
+              <div class="card-body">
+
+                <ul class="list-group navbar-dark" id="status_list">
+                  <li class="list-group-item title" aria-current="true">
+                    Total Info
+                  </li>
+                  <li class="list-group-item">
+                    Platform:
+                    <span id="info_platform"></span>
+                  </li>
+                  <li class="list-group-item">
+                    Hostname:
+                    <span id="info_hostname"></span>
+                  </li>
+                  <li class="list-group-item">
+                    Release:
+                    <span id="info_release"></span>
+                  </li>
+                  <li class="list-group-item">
+                    Processor Arch:
+                    <span id="info_arch"></span>
+                  </li>
+                  <li class="list-group-item">
+                    Uptime:
+                    <span class="badge text-bg-success">
+                      <span id="info_uptime">Time</span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
             </div>
-          
-          </div>
-          <div class="card " id="memory_usage_card">
-            <div class="card-body">
-              <h5 class="card-title">Memory Usage</h5>
-              <div class="chart" data-percent="42"> </div>
+            <div class="card " id="memory_usage_card">
+              <div class="row flex-column flex-xl-row">
+                <div class="col col-12  col-xl-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <h2 class="title">Memory Usage</h2>
+                    </li>
+                    <li class="list-group-item">
+                      Total:
+                      <span class="badge text-bg-success">
+                        <span id="info_totalmem">Totalmem</span>
+                      </span> 
+                    </li>
+                    <li class="list-group-item">
+                      Free:
+                      <span class="badge text-bg-success">
+                        <span id="info_freemem">Fremem</span>
+                      </span>  
+                    </li>
+                  </ul>
+                </div>
+                <div class="col col-12 col-xl-6">
+                    <span class="chart" data-percent="0">
+                      <span class="percent"></span>
+                    </span>
+                </div>
+              </div>
             </div>
-          
-          </div>
+
         </div>
-    
+
       </div>
     </div>
-   
+
   </div>
 
 
@@ -148,8 +197,9 @@
 
 
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-  <script src="./js/easypiechart.min.js"></script>
+  <script src="./js/easypiechart.js"></script>
   <script src="./js/main.js"></script>
+
 
 </body>
 
