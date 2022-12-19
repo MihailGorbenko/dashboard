@@ -10948,8 +10948,9 @@ body #main_content form .input-block .pocket-10 {
 #main_page {
   background-color: #1b1e24;
 }
-#main_page .navbar-brand {
-  margin-left: 0.5em;
+#main_page .nav-divider {
+  margin: 0;
+  margin-bottom: 1.5em;
 }
 #main_page .offcanvas-header {
   background-color: #252830;

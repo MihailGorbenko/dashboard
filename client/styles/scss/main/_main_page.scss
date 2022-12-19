@@ -3,9 +3,13 @@
 #main_page {
     background-color: $bg_color;
 
-    .navbar-brand{
-        margin-left: 0.5em;
+    .nav-divider {
+        margin: 0 ;
+        margin-bottom: 1.5em;
     }
+
+
+
 
     .offcanvas-header {
         background-color: $nav_color;
