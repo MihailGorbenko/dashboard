@@ -7,17 +7,7 @@ const spinner = document.querySelector('#spinner_bg')
 const ok = document.querySelector('#ok_bg')
 const userName= document.querySelector('#user_name')
 
-Number.prototype.formatBytes = function() {
-    var units = ['B', 'KB', 'MB', 'GB', 'TB'],
-        bytes = this,
-        i;
- 
-    for (i = 0; bytes >= 1024 && i < 4; i++) {
-        bytes /= 1024;
-    }
- 
-    return bytes.toFixed(1) + ' ' + units[i];
-}
+
 
 const token = localStorage.token
 loadProfilePicture()
@@ -127,9 +117,9 @@ function bindSystemDataFields(data){
     infoRelease.textContent = data.release
     infoArch.textContent = data.pArch
     infoUptime.textContent = convertToTimeString(data.uptime)
-    infoFreemem.textContent = Number.parseInt(data.freemem).formatBytes()
-    infoTotalmem.textContent =   Number.parseInt(data.totalmem).formatBytes()
-    window.memoryChart.update(100 - (data.totalmem / data.freemem))
+    infoFreemem.textContent = formatBytes(parseFloat(data.freemem))
+    infoTotalmem.textContent =   formatBytes(parseFloat(data.totalmem))
+    window.memoryChart.update(100 - (parseFloat(data.totalmem)/ parseFloat(data.freemem)))
 
 }
 
@@ -147,9 +137,7 @@ function convertToTimeString(secs){
             `${seconds}s`
 }
 
-function formatBytes(bytes){
-   return ['B','Kb','Mb','Gb','Tb'][Math.floor(Math.log2(bytes)/10)]
-}
+
 
 
 async function loadUserProfile() {
@@ -208,6 +196,18 @@ async function showOkBlocking() {
     ok.classList.toggle('d-none')
     await sleep(1000)
     ok.classList.toggle('d-none')
+}
+
+function formatBytes(bytes, decimals = 1) {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
 
