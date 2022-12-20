@@ -2,9 +2,15 @@
 
 #main_page {
 
-    #sidebar_nav_badge {
-        margin-left: 14em;
+    .dropdown-item {
+        position: relative;
+
+        #sidebar_nav_badge {
+            position: absolute;
+            right: 1em;
+        }
     }
+    
 
     .nav-divider {
         margin: 0 ;
@@ -55,7 +61,7 @@
     #main_container {
         background-color: rgba(207, 214, 213, 0.918);
         margin-top: 4em;
-        height: 100vh;
+        height: 100%;
 
         h1 {
             text-align: center;
@@ -69,9 +75,9 @@
             box-shadow: 0 0 10px 8px rgba(14, 13, 13, 0.363);
             margin-bottom: 2em;
             background-color: $bg_color;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
+            margin-left: 1vw;
+            margin-right: 1vw;
+            width: auto;
         }
 
         .list-group {

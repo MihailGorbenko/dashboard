@@ -119,7 +119,7 @@ function bindSystemDataFields(data){
     infoUptime.textContent = convertToTimeString(data.uptime)
     infoFreemem.textContent = formatBytes(parseFloat(data.freemem))
     infoTotalmem.textContent =   formatBytes(parseFloat(data.totalmem))
-    window.memoryChart.update(100 - (parseFloat(data.totalmem)/ parseFloat(data.freemem)))
+    window.memoryChart.update((parseFloat(data.freemem) / (parseFloat(data.totalmem) / 100) ))
 
 }
 
