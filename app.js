@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser')
 const favicon = require('serve-favicon')
 const Log = require('./utils/logger')
 const log = new Log('app ')
+const cors = require('cors')
 
 
 
@@ -21,7 +22,8 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(helmet({ contentSecurityPolicy: false }))
+if(process.env.NODE_ENV !== 'production') app.use(cors)
+else app.use(helmet({ contentSecurityPolicy: false }))
 app.use(require('./middleware/middleware.https-redirect'))
 app.use(express.static(path.join(__dirname, '/client')))
 app.use(favicon('./client/favicon.ico'))
@@ -29,6 +31,7 @@ app.use('/node_modules', express.static(path.join(__dirname, '/node_modules')))
 app.use('/api/auth', require('./routes/routes.auth'))
 app.use('/api/data', require('./routes/routes.data'))
 app.use('/', require('./routes/routes.pages'))
+
 
 
 

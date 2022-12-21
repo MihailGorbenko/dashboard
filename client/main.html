@@ -189,16 +189,57 @@
 
 
   <template id="image_resize">
-    <div class="container shadow-lg content-container">
+    <div class="container shadow-lg content-container" id="image_resize_container">
       <div class="row justify-content-center">
         <div class="col col-lg-8 d-flex flex-column">
           <h1>Resize Image</h1>
           <hr />
           <div class="row flex-column">
-              <div class="card " id="full_info_card">
-                <div class="card-body">
-                  <a href="/client/images/placeholder.png" download="placeholder.png">Image download</a>
-                  <ul class="list-group navbar-dark"></ul>
+              <div class="card ">
+                <div class="card-body container">
+                  <div class="row">
+                    <div class="col col-5 image-block" >
+                      <img id="selected_image" class="img-fluid shadow-lg  mb-3" src="./images/placeholder.png" alt="image">
+                      <input type="file" class="form-control form-control-sm shadow-lg " accept=".jpg" id="select_file">
+                      <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" value="" id="face_detect_checkbox">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          <span>
+                            Detect faces
+                            <span class="badge rounded-pill text-bg-primary shadow-lg ms-2">
+                              Beta
+                            </span>
+                          </span>  
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div class="col col-6 options-block mt-3">
+                      <div class="row flex-column">
+                        <div class="row justify-content-between mb-3 flex-column">
+                          <span>Width</span>
+                          <input type="range" class="form-range shadow-lg" min="100" max="6000" value="100" step="10" id="width_range">
+                          <div class="row flex-nowrap">
+                            <input type="number" min="100" max="6000" value="100" class="form-conrol mt-3 shadow-lg" id="width">
+                            <span class="mt-4 fs-6">px</span>
+                          </div>
+                        </div>
+                        <hr/>
+                        <div class="row justify-content-between mb-3 flex-column">
+                          <span>Height</span>
+                          <input type="range" class="form-range shadow-lg" min="100" value="100" max="6000" step="10" id="height_range">
+                          <div class="row flex-nowrap">
+                            <input type="number" min="100" max="6000"  value="100" class="form-conrol mt-3 shadow-lg" id="height">
+                            <span class="mt-4 fs-6">px</span>
+                          </div>
+                        </div>
+                        <hr/>
+                        
+                        <button type="button" class="btn btn-success shadow-lg" id="resize_button" disabled>Resize</button>
+                      </div>
+                    </div>
+                    <div id="result_list_container"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -207,6 +248,19 @@
     </div>
   </template>
  
+ <!-- Result list item  -->
+  <template id="result_list_item">
+    <li class="result-list-item">
+      <div class="row justify-content-between flex-nowrap">
+        <img src="./images/placeholder.png" class="img-fluid shadow-lg" alt="">
+        <a class="btn btn-success shadow-lg" type="button" href="/client/images/placeholder.png" download="" id="download_link">
+          Download
+        </a>
+      </div>
+    </li>
+  </template>
+
+
 
 
   <!-- Spinner -->

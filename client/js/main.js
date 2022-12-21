@@ -35,6 +35,7 @@ resizeLink.addEventListener('click', e => {
     e.preventDefault()
     main.removeChild(homeContent)
     main.appendChild(imageResizeContent)
+    initResizePage()
 
 })
 
@@ -147,20 +148,23 @@ window.location = window.location.origin
 //--------Home-----------------
 loadSystemInfo()
 
- window.memoryChart = new EasyPieChart(document.querySelector('.chart'), {
-    easing: 'easeOutElastic',
-    delay: 3000,
-    size: 250,
-    barColor: '#198754',
-    trackColor: '#5fe6bedb',
-    scaleColor: false,
-    lineWidth: 22,
-    trackWidth: 16,
-    lineCap: 'butt',
-    onStep: function(from, to, percent) {
-        this.el.children[0].innerHTML = Math.round(percent);
-    }
-})
+try{
+    window.memoryChart = new EasyPieChart(document.querySelector('.chart'), {
+        easing: 'easeOutElastic',
+        delay: 3000,
+        size: 250,
+        barColor: '#198754',
+        trackColor: '#5fe6bedb',
+        scaleColor: false,
+        lineWidth: 22,
+        trackWidth: 16,
+        lineCap: 'butt',
+        onStep: function(from, to, percent) {
+            this.el.children[0].innerHTML = Math.round(percent);
+        }
+    })
+} catch(err){console.log(err);}
+
 
 async function loadSystemInfo() {
 
@@ -204,6 +208,49 @@ function bindSystemDataFields(data){
 
 
 //----------------Image resize---------
+function initResizePage(){
+    const widthField = document.querySelector('#width')
+const heightField = document.querySelector('#height')
+const heightRange = document.querySelector('#height_range')
+const widthRange = document.querySelector('#width_range')
+const selectFile = document.querySelector('#select_file')
+const selectedImage = document.querySelector('#selected_image')
+const resizeButton = document.querySelector('#resize_button')
+const reader = new FileReader()
+
+heightRange.addEventListener('input', e => {
+    heightField.value = e.target.value
+})
+
+widthRange.addEventListener('input', e => {
+    widthField.value = e.target.value
+})
+
+selectFile.addEventListener('change', e => {
+    imageFile = e.target.files[0]
+    reader.readAsDataURL(imageFile)
+    resizeButton.disabled = false
+
+})
+
+reader.addEventListener('load', () => {
+    selectedImage.src = reader.result
+},false)
+
+
+resizeButton.addEventListener('click', e => {
+ const resultListContainer = document.querySelector('#result_list_container')
+ const resultList = document.createElement('ul')
+ resultList.classList.add('list-group', 'navbar-dark', 'list-unstyled')
+
+///create form data ,send on server, get array of paths, for each create li element,set src for  download
+ resultListContainer.innerHTML = resultList.outerHTML
+})
+
+}
+
+
+
 
 
 
