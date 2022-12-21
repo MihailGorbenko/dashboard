@@ -1,39 +1,42 @@
+//--------------Shared-------------------
+const spinner = document.querySelector('#spinner_bg')
+const ok = document.querySelector('#ok_bg')
+const main = document.querySelector('#main')
+const token = localStorage.token
 
+const homeContent = document.createElement('div')
+homeContent.innerHTML = document.querySelector('#home').innerHTML
+const imageResizeContent = document.createElement('div')
+imageResizeContent.innerHTML = document.querySelector('#image_resize').innerHTML
+main.appendChild(homeContent)
 
+//-------------- Sidebar---------------
 const logoutButon = document.querySelector('#logout_button')
 const imagePickup = document.querySelector('#image_pickup')
 const profilePicture = document.querySelector('#profile_picture')
-const spinner = document.querySelector('#spinner_bg')
-const ok = document.querySelector('#ok_bg')
 const userName= document.querySelector('#user_name')
+const sidebarToogler = document.querySelector('#sidebar_toggler')
+const staticPoper = document.querySelector('.static-poper')
+const resizeLink = document.querySelector('#resize_link')
+const homeLink = document.querySelector('#home_link')
 
-
-
-const token = localStorage.token
 loadProfilePicture()
 loadUserProfile()
-loadSystemInfo()
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+homeLink.addEventListener('click', e => {
+    e.preventDefault()
+    main.removeChild(imageResizeContent)
+    main.appendChild(homeContent)
 
-
- window.memoryChart = new EasyPieChart(document.querySelector('.chart'), {
-    easing: 'easeOutElastic',
-    delay: 3000,
-    size: 250,
-    barColor: '#198754',
-    trackColor: '#5fe6bedb',
-    scaleColor: false,
-    lineWidth: 22,
-    trackWidth: 16,
-    lineCap: 'butt',
-    onStep: function(from, to, percent) {
-        this.el.children[0].innerHTML = Math.round(percent);
-    }
 })
 
-    
+
+resizeLink.addEventListener('click', e => {
+    e.preventDefault()
+    main.removeChild(homeContent)
+    main.appendChild(imageResizeContent)
+
+})
 
 imagePickup.addEventListener('change', async e => {
     toggleSpinner()
@@ -47,15 +50,14 @@ imagePickup.addEventListener('change', async e => {
     toggleSpinner()
 })
 
-
 logoutButon.addEventListener('click', e => {
     logout()
 })
 
-
 async function setProfilePicture(picture) {
     const img = await resizeImage(picture, 400, 400)
     if(img) profilePicture.src = img
+    staticPoper.classList.add('d-none')
 
 }
 
@@ -86,6 +88,80 @@ async function resizeImage(image, heigth = 100, width = 100) {
     return profileImage
 }
 
+
+async function loadUserProfile() {
+    fetch('/api/data/getUserProfile',{
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }).then(res => {
+        if(res.status === 401) {
+            logout()
+            return null
+        }
+        if(res.status === 404) return null
+        return res
+      }).then(res => res ? res.json() : null)
+        .then(res => res ? userName.textContent = res.name : null )
+        .catch(err =>  console.log(err))
+
+}
+
+
+async function loadProfilePicture(){
+
+    await fetch('/api/data/getUserProfilePicture', {
+       method: 'GET',
+       headers: {
+           Authorization: `Bearer ${token}`
+       }
+   }).then(res => {
+    if(res.status === 401) {
+        logout()
+        return null
+    }
+    if(res.status == 404){
+        staticPoper.classList.remove('d-none')
+        return null
+    } 
+    return res
+   }).then(res => res ? res.blob() : null)
+     .then(blob => blob ? URL.createObjectURL(blob) : null)
+     .then(urlObj => {
+        if(urlObj) {
+            profilePicture.src = urlObj
+            staticPoper.classList.add('d-none')
+        }
+     }).catch(err => console.log(err))
+
+}
+
+function logout() {
+localStorage.setItem('token', '')
+window.location = window.location.origin
+}
+
+
+
+//--------Home-----------------
+loadSystemInfo()
+
+ window.memoryChart = new EasyPieChart(document.querySelector('.chart'), {
+    easing: 'easeOutElastic',
+    delay: 3000,
+    size: 250,
+    barColor: '#198754',
+    trackColor: '#5fe6bedb',
+    scaleColor: false,
+    lineWidth: 22,
+    trackWidth: 16,
+    lineCap: 'butt',
+    onStep: function(from, to, percent) {
+        this.el.children[0].innerHTML = Math.round(percent);
+    }
+})
+
 async function loadSystemInfo() {
 
         fetch('/api/data/getSystemInfo',{
@@ -93,12 +169,15 @@ async function loadSystemInfo() {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then(resp =>{
-            if(resp.status === 401) logout()
-            if(resp.status === 404) return
-            return resp
-        }).then(resp => resp.json())
-          .then(res => bindSystemDataFields(res))
+        }).then(res =>{
+            if(res.status === 401){
+                logout()
+                return null
+            } 
+            if(res.status === 404) return null
+            return res
+        }).then(res => res ? res.json() : null)
+          .then(res => res ? bindSystemDataFields(res) : null)
           .catch(err => console.log(err))
     
    
@@ -124,6 +203,13 @@ function bindSystemDataFields(data){
 }
 
 
+//----------------Image resize---------
+
+
+
+
+//----------- Helpers ------------------
+
 function convertToTimeString(secs){
     let hours = secs / 3600
     let minutes = (hours % 1) * 60
@@ -139,64 +225,22 @@ function convertToTimeString(secs){
 
 
 
-
-async function loadUserProfile() {
-    fetch('/api/data/getUserProfile',{
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }).then(resp => resp.json())
-      .then(jResp => {
-        if(jResp.status === 401) logout()
-        if(jResp.status === 404) return
-        if(jResp.name) userName.textContent = jResp.name
-      }).catch(err => console.log(err))
-
-}
-
-async function loadProfilePicture(){
-
-        await fetch('/api/data/getUserProfilePicture', {
-           method: 'GET',
-           headers: {
-               Authorization: `Bearer ${token}`
-           }
-       }).then(res => {
-        if(res.status === 401) {
-            logout()
-            return res
-        }
-        if(res.status == 404) return
-        else return res
-
-       }).then(resp => resp.blob())
-         .then(blob => URL.createObjectURL(blob))
-         .then(urlObj => {
-            if(urlObj) profilePicture.src = urlObj
-         }).catch(err => console.log(err))
-
-}
-
-//logout
-function logout() {
-    localStorage.setItem('token', '')
-    window.location = window.location.origin
-}
-
 function toggleSpinner() {
     spinner.classList.toggle('d-none')
 }
 
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 
 async function showOkBlocking() {
     ok.classList.toggle('d-none')
     await sleep(1000)
     ok.classList.toggle('d-none')
 }
+
 
 function formatBytes(bytes, decimals = 1) {
     if (!+bytes) return '0 Bytes'

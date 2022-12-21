@@ -54,6 +54,10 @@ router.get(
                 log.info(`sending image: ${imageUri}`)
                 res.status(200).sendFile(imagePath)
             }
+            else{
+                log.info(`image not found: ${imageUri}`)
+                res.status(404).json({ message: 'image not found' })
+            }
         } catch (err) {
             log.error(err)
             res.status(400).json({ message: err.message })
