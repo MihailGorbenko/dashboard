@@ -3,7 +3,7 @@ const config = require('config')
 const Log = require('./logger')
 const log = new Log('SendEmail')
 
-const sendEmail = async (email, subject, text) => {
+const sendEmail = async (email, subject, text, html) => {
     try {
         const transporter = nodemailer.createTransport({
             host: config.get('emailHost'),
@@ -18,8 +18,9 @@ const sendEmail = async (email, subject, text) => {
             from: config.get('emailUser'),
             to: email,
             subject: subject,
-            text: text
-        })
+            text: text,
+            html: html,
+             })
         log.info('Email sent succesfully')
 
     } catch (err) {

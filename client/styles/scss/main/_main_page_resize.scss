@@ -1,6 +1,11 @@
 
 #image_resize_container {
 
+    height: 100vh;
+    .card{
+        height:max-content;
+    }
+
     hr {
         margin-bottom: 1em !important;
     }
@@ -79,21 +84,31 @@
 
     }
 
-#results_list {
+.results-list {
+    background-color: $nav_color;
+    box-shadow: 0 0 6px 4px rgba(7, 6, 6, 0.144);
+    margin: 0;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
     padding-right: 0;
     margin-top: 2em;
+    padding-bottom: 0.5em;
+
+
+    
 
 
     .result-list-item {
-
         margin: 1em;
+        
         img {
 
             width: 8em;
             margin: 1em;
+            margin-bottom: 0;
+            border: 1px solid var(--bs-green);
+            border-radius: 5px;
         }
 
         a {
@@ -102,6 +117,9 @@
             width: fit-content;
             margin: auto;
             margin-right: 2em;
+        }
+        hr {
+            color: grey;
         }
     }
 }

@@ -329,7 +329,7 @@ function runSighInForm() {
           toggleSpinner()
 
           let alert = document.createElement('div')
-          alert.innerHTML = '<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">For further instructions check your mailbox</div>'
+          alert.innerHTML = `<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">Reset message sent on your email: ${USER_EMAIL}</div>`
           mainForm.firstElementChild.appendChild(alert)
           await sleep(5000)
           mainForm.firstElementChild.removeChild(alert)

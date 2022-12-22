@@ -9,6 +9,7 @@ const Log = require('../utils/logger')
 const UserData = require('../models/UserData')
 const User = require('../models/User')
 const os = require('os');
+const crypto = require('crypto')
 
 
 
@@ -138,20 +139,22 @@ router.post(
     '/resizeImage',
     [
         auth,
-        formidable()
+        formidable({uploadDir: path.resolve(__dirname, '../storage/resize')})
 
     ],
     (req, res) => {
         const log = new Log('route: /resizeImage')
         try {
-
+            /// write middleware to create unique folders
             const filePath = req.files.image.path
             const reqFields = req.fields
+            log.info(`image path > ${filePath}`)
+            log.info(`image params >  ${reqFields.width} ${reqFields.height} ${reqFields.detect}`)
+            const resArr = ['./images/11.jpg', './images/12.jpg', './images/13.jpg', './images/14.jpg']
 
-
-            return res.status(200).sendFile(filePath)
+            return res.status(200).json(resArr)
         } catch (err) {
-            log.err(err)
+            log.error(err)
             return res.status(400).json({ message: err })
         }
     }

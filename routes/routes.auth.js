@@ -15,6 +15,7 @@ const Log = require('../utils/logger')
 
 
 
+
 const router = Router()
 
 // Register
@@ -209,7 +210,9 @@ router.post(
             }
 
             const link = `${config.get('baseUrl')}/api/auth/passwordResetForm/${user._id}/${passwordToken.token}`
-            await sendEmail(user.credentials.email, "Password reset", link)
+            const text = `Folow this link to reset password: ${link}`
+            const html = htmlEmailTemplate.replace('$link',link)
+            await sendEmail(user.credentials.email, "Password reset", text, html)
             log.info(`Email sent to ${user.credentials.email}`);
 
             return res.status(200).json({ mesage: "sent" })
@@ -304,8 +307,44 @@ router.post(
             log.error(err);
             res.status(500).json({ message: 'error' })
         }
-
     })
 
+    const htmlEmailTemplate = 
+    `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reset password</title>
+        <style type="text/css">
+            body {
+                text-align: center;
+                background-color: rgba(128, 128, 128, 0.479);
+                color: rgb(56, 56, 56);
+                padding: 3% 30%;
+            }
+            a {
+                text-decoration: none;
+                width: max-content;
+                font-size: 2em;
+                background-color: #198754;
+                color: white;
+                border: 1px solid #198754;
+                border-radius: 5px;
+                padding: 0.15em 2em;
+                box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.411);
+            }
+        </style>
+    </head>
+    <body>
+        
+    
+        <h1>Reset password</h1>
+        <h5>Click button below to continue</h5>
+        <a href="$link">Reset</a>
+      
+    </body>
+    </html>`
 
 module.exports = router

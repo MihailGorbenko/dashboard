@@ -11101,6 +11101,12 @@ body #main_content form .input-block .pocket-10 {
   color: gray;
 }
 
+#image_resize_container {
+  height: 100vh;
+}
+#image_resize_container .card {
+  height: max-content;
+}
 #image_resize_container hr {
   margin-bottom: 1em !important;
 }
@@ -11158,26 +11164,36 @@ body #main_content form .input-block .pocket-10 {
   border-radius: 5px;
   margin-left: 0.5em;
 }
-#image_resize_container #results_list {
+#image_resize_container .results-list {
+  background-color: #252830;
+  box-shadow: 0 0 6px 4px rgba(7, 6, 6, 0.144);
+  margin: 0;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
   padding-right: 0;
   margin-top: 2em;
+  padding-bottom: 0.5em;
 }
-#image_resize_container #results_list .result-list-item {
+#image_resize_container .results-list .result-list-item {
   margin: 1em;
 }
-#image_resize_container #results_list .result-list-item img {
+#image_resize_container .results-list .result-list-item img {
   width: 8em;
   margin: 1em;
+  margin-bottom: 0;
+  border: 1px solid var(--bs-green);
+  border-radius: 5px;
 }
-#image_resize_container #results_list .result-list-item a {
+#image_resize_container .results-list .result-list-item a {
   display: inline-block;
   height: max-content;
   width: fit-content;
   margin: auto;
   margin-right: 2em;
+}
+#image_resize_container .results-list .result-list-item hr {
+  color: grey;
 }
 
 #spinner_bg {
