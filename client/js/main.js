@@ -230,9 +230,11 @@ function initResizePage() {
     })
 
     selectFile.addEventListener('change', e => {
+        toggleSpinner()
         imageFile = e.target.files[0]
         reader.readAsDataURL(imageFile)
         resizeButton.disabled = false
+        toggleSpinner()
 
     })
 
@@ -278,7 +280,7 @@ function initResizePage() {
                     
                     toggleSpinner()
                     showOkBlocking()
-                    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' })
+                    window.scrollTo({ left: 0, top: document.body.scrollHeight - 50, behavior: 'smooth' })
                 }
                 else toggleSpinner()
             })
