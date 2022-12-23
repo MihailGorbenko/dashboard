@@ -4,6 +4,7 @@ const ok = document.querySelector('#ok_bg')
 const main = document.querySelector('#main')
 const token = localStorage.token
 
+
 const homeContent = document.createElement('div')
 homeContent.innerHTML = document.querySelector('#home').innerHTML
 const imageResizeContent = document.createElement('div')

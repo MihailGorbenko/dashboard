@@ -1,6 +1,5 @@
 const { Router } = require('express')
 const auth = require('../middleware/middleware.auth')
-const cors = require('cors')
 const path = require('path')
 const resizer = require('../utils/resizeImage')
 const formidable = require('express-formidable')
@@ -9,7 +8,7 @@ const Log = require('../utils/logger')
 const UserData = require('../models/UserData')
 const User = require('../models/User')
 const os = require('os');
-const crypto = require('crypto')
+
 
 
 
@@ -50,12 +49,12 @@ router.get(
                 res.status(400).json({ message: "image not found" })
             }
             const imageUri = userData.imageUri
-            if(imageUri){
+            if (imageUri) {
                 const imagePath = path.join(path.resolve(__dirname, '../'), imageUri)
                 log.info(`sending image: ${imageUri}`)
                 res.status(200).sendFile(imagePath)
             }
-            else{
+            else {
                 log.info(`image not found: ${imageUri}`)
                 res.status(404).json({ message: 'image not found' })
             }
@@ -97,8 +96,9 @@ router.get(
 router.post(
     '/setProfilePicture',
     [
-        formidable({ uploadDir: path.resolve(__dirname, '../storage/images') }),
-        auth
+        
+        auth,
+        formidable({ uploadDir: path.resolve(__dirname, '../storage/images') })
     ],
     async (req, res) => {
         const log = new Log('route: /setProfilePicture')
@@ -112,10 +112,10 @@ router.post(
             const newPath = path.join(path.dirname(filePath), fileName)
             fs.renameSync(filePath, newPath)
             log.info(`Image renamed`)
-            resizer(newPath, reqFields.width, reqFields.heigth)
+            resizer(newPath, path.dirname(newPath),reqFields.width, reqFields.heigth, 'true')
             log.info(`Image resized`)
 
-            userId = req.userId
+            const userId = req.userId
             log.info(`Got user id > ${userId}`)
 
             const userData = await UserData.findOne({ user: userId })
@@ -139,20 +139,31 @@ router.post(
     '/resizeImage',
     [
         auth,
-        formidable({uploadDir: path.resolve(__dirname, '../storage/resize')})
-
+        formidable({ uploadDir: path.resolve(__dirname, '../storage/resize') })
     ],
     (req, res) => {
         const log = new Log('route: /resizeImage')
         try {
             /// write middleware to create unique folders
             const filePath = req.files.image.path
+            const imageName = req.files.image.name
             const reqFields = req.fields
-            log.info(`image path > ${filePath}`)
-            log.info(`image params >  ${reqFields.width} ${reqFields.height} ${reqFields.detect}`)
-            const resArr = ['./images/11.jpg', './images/12.jpg', './images/13.jpg', './images/14.jpg']
+            const dirName = `dir-${path.basename(filePath)}`
+            const imageDir = path.resolve(__dirname, `../storage/resize/${dirName}`)
+            fs.mkdirSync(imageDir)
+            log.info(`created directory ${imageDir}`)
+            const newImagePath = path.join(imageDir, `${imageName}`)
+            fs.renameSync(filePath, newImagePath)
+            log.info(`image moved, new path ${newImagePath}`)
+            resizer(newImagePath, imageDir, reqFields.height, reqFields.width, reqFields.detect,5)
+            log.info('Resizing done')
 
-            return res.status(200).json(resArr)
+            const results = fs.readdirSync(imageDir, { withFileTypes: true })
+                .filter(dirent => dirent.isFile)
+                .map(dirent => path.join(`./storage/resize/${dirName}`, dirent.name))
+
+
+            return res.status(200).json(results)
         } catch (err) {
             log.error(err)
             return res.status(400).json({ message: err })

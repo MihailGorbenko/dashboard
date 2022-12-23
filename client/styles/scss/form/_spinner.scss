@@ -3,12 +3,12 @@
     display: flex;
     justify-content: center;
     position: absolute;
-    top: 0;
+    top: -100px;
     left: 0;
     background-color: rgba(0, 0, 0, 0.712);
     z-index: 1050;
     width: 100vw;
-    height: 120vh;
+    height: 200vh;
 
     .spinner-border {
         margin-top: 16em;
