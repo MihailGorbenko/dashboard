@@ -10962,7 +10962,7 @@ body #main_content form .input-block .pocket-10 {
 }
 #main_page #profile_picture_block .static-poper {
   background-color: var(--bs-primary);
-  height: 2em;
+  height: max-content;
   width: fit-content;
   padding: 0.2em;
   border-radius: 5px;
@@ -10975,6 +10975,7 @@ body #main_content form .input-block .pocket-10 {
   font-size: 0.9em;
   margin-left: 0.6em;
   margin-right: 0.4em;
+  display: inline;
 }
 #main_page #profile_picture_block .static-poper .poper-arrow {
   background-color: var(--bs-primary);
@@ -11137,6 +11138,7 @@ body #main_content form .input-block .pocket-10 {
 #image_resize_container .image-block .form-control {
   width: 90%;
   font-size: 70%;
+  box-shadow: 0 0 4px 2px rgba(25, 135, 84, 0.768627451);
 }
 #image_resize_container .options-block {
   border-left: 1px solid rgba(128, 128, 128, 0.438);

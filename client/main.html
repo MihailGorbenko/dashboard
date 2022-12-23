@@ -33,7 +33,7 @@
 
       <!-- Side panel -->
 
-      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+      <div class="offcanvas offcanvas-start text-bg-dark show" tabindex="-1" id="offcanvasDarkNavbar"
         aria-labelledby="offcanvasDarkNavbarLabel">
 
         <!-- Side panel header -->
@@ -56,11 +56,11 @@
               <input type="file" class="form-control" accept=".jpg" id="image_pickup" title="">
               <img src="images/placeholder.png" class="rounded-circle mb-2 ms-1" id="profile_picture">
             </div>
-            <div class="static-poper d-none">
+            <div class="static-poper ">
               <div class="poper-arrow">
               </div>
               <div class="poper-body">
-                Tap to set profile picture
+                Tap picture to add photo
               </div>
             </div>
           </div>
@@ -194,8 +194,8 @@
                 <div class="card-body container">
                   <div class="row">
                     <div class="col col-5 image-block" >
-                      <img id="selected_image" class="img-fluid shadow-lg  mb-3" src="./images/placeholder.png" alt="image">
-                      <input type="file" class="form-control form-control-sm shadow-lg " accept=".jpg" id="select_file">
+                      <img id="selected_image" class="img-fluid shadow-lg  mb-3" src="./images/placeholder_img.png" alt="image">
+                      <input type="file" class="form-control form-control-sm" accept=".jpg" id="select_file">
                       <div class="form-check mt-4">
                         <input class="form-check-input" type="checkbox" value="" id="face_detect_checkbox">
                         <label class="form-check-label" for="flexCheckDefault">

@@ -30,7 +30,7 @@
 
         .static-poper {
             background-color: var(--bs-primary);
-            height: 2em;
+            height: max-content;
             width: fit-content;
             padding: 0.2em;
             border-radius: 5px;
@@ -38,11 +38,13 @@
             margin-left: 1.2em;
             margin-top: 3.5em;
             box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.247);
+        
 
             .poper-body {
                 font-size: 0.9em;
                 margin-left: 0.6em;
                 margin-right: 0.4em;
+                display: inline;
             }
 
             .poper-arrow {
