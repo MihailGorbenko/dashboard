@@ -11,6 +11,7 @@ const favicon = require('serve-favicon')
 const Log = require('./utils/logger')
 const log = new Log('app ')
 const cors = require('cors')
+const child = require('child_process')
 
 
 
@@ -56,7 +57,17 @@ async function start() {
 
 }
 
+function runAutoclean(){
+
+    setInterval(() => {
+        child.spawn('find ./storage/resize/* -mmin +30 -type d -exec rm -rdf {} +',[],{
+            shell: true,
+            stdio: 'inherit'
+        })
+    },60*60*1000)
+}
+
 start()
+runAutoclean()
 
 
-//launch storage clear script
