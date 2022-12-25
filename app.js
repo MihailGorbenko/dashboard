@@ -44,6 +44,7 @@ async function start() {
         http.createServer(app).listen(HTTP_PORT, () => { log.info(`Server listening port ${HTTP_PORT}`); })
 
         https.createServer({
+            
             key: fs.readFileSync('./sslcert/privkey.pem'),
             cert: fs.readFileSync('./sslcert/fullchain.pem')
         }, app).listen(HTTPS_PORT, () => { log.info(`Server listening port ${HTTPS_PORT}`) })

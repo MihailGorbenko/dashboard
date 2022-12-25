@@ -215,7 +215,7 @@ router.post(
             await sendEmail(user.credentials.email, "Password reset", text, html)
             log.info(`Email sent to ${user.credentials.email}`);
 
-            return res.status(200).json({ mesage: "sent" })
+            return res.status(200).json({ message: "sent" })
 
         } catch (err) {
             log.error(err);
@@ -324,7 +324,7 @@ router.post(
                 color: rgb(56, 56, 56);
                 padding: 3% 30%;
             }
-            a {
+            #button{
                 text-decoration: none;
                 width: max-content;
                 font-size: 2em;
@@ -342,7 +342,7 @@ router.post(
     
         <h1>Reset password</h1>
         <h5>Click button below to continue</h5>
-        <a href="$link">Reset</a>
+        <a href="$link" id="button">Reset</a>
       
     </body>
     </html>`

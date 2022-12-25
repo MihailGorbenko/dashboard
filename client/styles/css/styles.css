@@ -11228,6 +11228,21 @@ body #main_content form .input-block .pocket-10 {
   margin-top: 16em;
 }
 
+#bad_bg {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.712);
+  z-index: 1000;
+  width: 100vw;
+  height: 120vh;
+}
+#bad_bg .bad {
+  margin-top: 16em;
+}
+
 body {
   position: relative;
 }

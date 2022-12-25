@@ -20,7 +20,7 @@ module.exports = (req,res,next) => {
         next()
 
     } catch(err) {
-        log.error(err)
+        log.info(err)
         return res.status(401).json({message: 'not authorized'})
     }
 

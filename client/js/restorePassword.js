@@ -1,3 +1,5 @@
+import { NetworkLoger } from "./logger.js"
+const loger = new NetworkLoger('main')
 
 const setPasswordInput = document.querySelector('#restore_password_input')
 const setPasswordConfirm = document.querySelector('#restore_password_input_confirm')
@@ -6,6 +8,7 @@ const setPasswordInfo = document.querySelector('#restore_password_help')
 const setPasswordConfirmLabel = document.querySelector('#restore_password_confirm_help')
 const spinner = document.querySelector('#spinner_bg')
 const ok = document.querySelector('#ok_bg')
+const bad = document.querySelector('#bad_bg')
 const mainForm = document.querySelector('#main_form')
 
 initPasswordIcons()
@@ -30,56 +33,60 @@ setPasswordConfirm.addEventListener('input', e => {
 
 
 restoreAction.addEventListener('click', async e => {
+    const log = loger.clone('Restore action')
+    await log.info('running')
+
     let password = setPasswordInput.value
     let passwordConfirm = setPasswordConfirm.value
+    let alert = document.createElement('div')
 
     if (password.length < 1) {
         inputStateInvalid(setPasswordInfo, setPasswordInput, 'Password is required')
         return
     }
-    if (passwordConfirm.length < 1) {
+    if (passwordConfirm !== password) {
         inputStateInvalid(setPasswordConfirmLabel, setPasswordConfirm, 'Confirm password')
         return
     }
 
-    try {
-        let pswd = {
-            password:password
-        }
-        toggleSpinner()
-        let resp = await fetch('/api/auth/passwordResetFromForm',{
-            method: 'POST',
-            credentials: 'include',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(pswd)
+    let pswd = {
+        password:password
+    }
+    toggleSpinner()
+    await fetch('/api/auth/passwordResetFromForm',{
+        method: 'POST',
+        credentials: 'include',
+        headers:{
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(pswd)
 
-        }).then(resp => resp.json())
+    }).then(resp => resp.json())
+      .then(async resp => {
         toggleSpinner()
-        let alert = document.createElement('div')
-            
         if (resp.message === 'reset') {
             await showOkBlocking()
             alert.innerHTML = '<div class="alert alert-success mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">Password reset successfully!</div>'
             mainForm.firstElementChild.appendChild(alert)
             await sleep(1000)
             mainForm.firstElementChild.removeChild(alert)
-            window.location = window.location.origin
         }
         else{
             alert.innerHTML = '<div class="alert alert-danger mt-3 mb-0" style="padding: 0.5em; text-align:center;"role="alert">Something went wrong!</div>'
             mainForm.firstElementChild.appendChild(alert)
             await sleep(1000)
             mainForm.firstElementChild.removeChild(alert)
-            window.location = window.location.origin
+            
         
         }
+      }).catch(async err => {
+        await log.error(err)
+        hideSpinner()
+        await showBadBlocking()
+      })
 
-    } catch (err) {
-        console.log('Restore error', err.message);
-        return
-    }
+      window.location = window.location.origin
+  
 })
 
 
@@ -130,6 +137,16 @@ async function showOkBlocking() {
     ok.classList.toggle('d-none')
     await sleep(1000)
     ok.classList.toggle('d-none')
+}
+
+function hideSpinner() {
+    spinner.classList.add('d-none')
+}
+
+async function showBadBlocking() {
+    bad.classList.toggle('d-none')
+    await sleep(1000)
+    bad.classList.toggle('d-none')
 }
 
 function checkPassword(password) {

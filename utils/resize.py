@@ -37,23 +37,22 @@ maxFaces = args.max_faces
 
 def resizeBySize(image, width, heigth):
     (img_h, img_w, ch) = image.shape
-    print(
-        '[-INFO-]: image heigth > {0}; image width > {1}'.format(img_h, img_w))
-    print('[-INFO-]: req heigth > {0}; req width > {1}'.format(heigth, width))
+    print('[-RESIZE INFO-]: image heigth > {0}; image width > {1}'.format(img_h, img_w))
+    print('[-RESIZE INFO-]: req heigth > {0}; req width > {1}'.format(heigth, width))
     rate = max(img_w, width) / min(img_w, width)
-    print('[-INFO-]: rate > {0}'.format(rate))
+    print('[-RESIZE INFO-]: rate > {0}'.format(rate))
     dim = (int(img_w / rate), int(img_h / rate)) if (int(img_w) >
                                                      width) | (int(img_h) > heigth) else (int(img_w * rate), int(img_h * rate))
     print(dim)
     resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     (h, w, c) = resized.shape
-    print('[-INFO-]: resized width > {0}; resized heigth > {1}'.format(w, h))
+    print('[-RESIZE INFO-]: resized width > {0}; resized heigth > {1}'.format(w, h))
     return resized
 
 
 
 image = cv2.imread(image_path)
-print('[-PYTHON RESIZE-]: open image {0}'.format(image_path))
+print('[-RESIZE INFO-]: open image {0}'.format(image_path))
 
 #### -Searching faces-#############
 if(detectFaces):
@@ -67,7 +66,7 @@ if(detectFaces):
             minNeighbors=8,
             minSize=(80, 80)
         )
-        print('[-PYTHON RESIZE-]: found {0} faces'.format(len(faces)))
+        print('[-RESIZE INFO-]: found {0} faces'.format(len(faces)))
         (im_heigth, im_width, ch) = image.shape
 
         count = 0
@@ -77,26 +76,25 @@ if(detectFaces):
             rate = 0.4
             margin_w = (w * rate)
             margin_h = (h * rate)
-            print(
-                '[-PYTHON RESIZE-]: image > width:{0} height:{1}'.format(im_width, im_heigth))
-            print('[-INFO-]: face width > {0}; face heigth > {1}'.format(w, h))
+            print('[-RESIZE INFO-]: image > width:{0} height:{1}'.format(im_width, im_heigth))
+            print('[-RESIZE INFO-]: face width > {0}; face heigth > {1}'.format(w, h))
             res_y = y - margin_h if (y - margin_h > 0) else 0
             res_x = x - margin_w if (x - margin_w > 0) else 0
             res_h = y + h + margin_h if (y + h + margin_h) < im_heigth else im_heigth
             res_w = x + w + margin_w if (x + w + margin_w) < im_width else im_width
-            print('[-PYTHON RESIZE-]: margin-y: {0}'.format(margin_h))
-            print('[-PYTHON RESIZE-]: margin-x: {0}'.format(margin_w))
+            print('[-RESIZE INFO-]: margin-y: {0}'.format(margin_h))
+            print('[-RESIZE INFO-]: margin-x: {0}'.format(margin_w))
             face_coord = image[int(res_y):int(res_h), int(res_x):int(res_w)]
             
             prefix = str(count) + '-' if (maxFaces > 1) else ''
             face_path  = result_path + '/' + prefix + os.path.basename(image_path)
             status = cv2.imwrite(face_path, resizeBySize(face_coord, heigth, width))
-            print('[-PYTHON RESIZE-]: image saved with detecting{0}'.format(status))
+            print('[-RESIZE INFO-]: image saved with detecting{0}'.format(status))
             count+=1
 
 else:
     status = cv2.imwrite(result_path +'/'+ os.path.basename(image_path), resizeBySize(image, width, heigth))
-    print('[-INFO-]: image saved without detecting{0}'.format(status))
+    print('[-RESIZE INFO-]: image saved without detecting{0}'.format(status))
 
 
 

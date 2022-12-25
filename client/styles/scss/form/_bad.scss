@@ -1,0 +1,15 @@
+#bad_bg {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.712);
+    z-index: 1000;
+    width: 100vw;
+    height: 120vh;
+
+    .bad {
+        margin-top: 16em;
+    }
+}

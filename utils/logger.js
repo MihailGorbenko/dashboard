@@ -8,11 +8,16 @@ class Log {
     }
 
     error(subject){
-        console.log(`[-ERROR-] in (${this.methodName}):: ${subject}`)
+        console.log(`[-SERVER ERROR-] in (${this.methodName}):: ${subject}`)
     }
 
     info(subject){
-        console.log(`[-INFO-] from (${this.methodName}):: ${subject}`)
+        console.log(`[-SERVER INFO-] from (${this.methodName}):: ${subject}`)
+    }
+
+    log(subject) {
+        console.log(subject)
+        
     }
 
 }

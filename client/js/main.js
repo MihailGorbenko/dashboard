@@ -1,3 +1,5 @@
+import { NetworkLoger } from './logger.js'
+const logger = new NetworkLoger('main')
 //--------------Shared-------------------
 const spinner = document.querySelector('#spinner_bg')
 const ok = document.querySelector('#ok_bg')
@@ -43,7 +45,6 @@ resizeLink.addEventListener('click', e => {
 imagePickup.addEventListener('change', async e => {
     toggleSpinner()
     const newName = getCookie('userId')
-    console.log(e.target.files[0]);
     let image = e.target.files[0]
     let sName = image.name.split('.')
     let ext = '.' + sName[sName.length - 1]
@@ -57,42 +58,55 @@ logoutButon.addEventListener('click', e => {
 })
 
 async function setProfilePicture(picture) {
-    const img = await resizeImage(picture, 400, 400)
-    if (img) profilePicture.src = img
-    staticPoper.classList.add('d-none')
+    let log = logger.clone('Set profile image')
+    await log.info('running')
+
+    try {
+        const img = await resizeProfileImage(picture, 400, 400)
+        if (img) profilePicture.src = img
+        staticPoper.classList.add('d-none')
+    } catch (err) {
+        log.error(err)
+    }
+
 
 }
 
-async function resizeImage(image, heigth = 100, width = 100) {
+async function resizeProfileImage(image, heigth = 100, width = 100) {
+    let log = logger.clone('Resize profile image')
+    await log.info('running')
     const formData = new FormData()
     formData.append('image', image)
     formData.append('heigth', heigth)
     formData.append('width', width)
     let profileImage = null
-    try {
-        await fetch('/api/data/setProfilePicture', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(resp => {
-            if (resp.status === 401) logout()
-            return resp
-        }).then(res => res.blob())
-            .then(blob => URL.createObjectURL(blob))
-            .then(urlObj => profileImage = urlObj)
 
-    } catch (err) {
-        console.log('resize fetch error', err.message);
-    }
+    await fetch('/api/data/setProfilePicture', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }).then(resp => {
+        if (resp.status === 401) logout()
+        return resp
+    }).then(res => res.blob())
+        .then(blob => URL.createObjectURL(blob))
+        .then(urlObj => profileImage = urlObj)
+        .catch(async err => {
+            await log.error(err)
+            throw err
+        })
 
     return profileImage
 }
 
 
 async function loadUserProfile() {
-    fetch('/api/data/getUserProfile', {
+    let log = logger.clone('Load profile ')
+    await log.info('running')
+
+    await fetch('/api/data/getUserProfile', {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`
@@ -106,12 +120,14 @@ async function loadUserProfile() {
         return res
     }).then(res => res ? res.json() : null)
         .then(res => res ? userName.textContent = res.name : null)
-        .catch(err => console.log(err))
+        .catch(async err => await log.error(err))
 
 }
 
 
 async function loadProfilePicture() {
+    let log = logger.clone('Load profile picture ')
+    await log.info('running')
 
     await fetch('/api/data/getUserProfilePicture', {
         method: 'GET',
@@ -135,12 +151,12 @@ async function loadProfilePicture() {
                 profilePicture.src = urlObj
                 staticPoper.classList.add('d-none')
             }
-        }).catch(err => console.log(err))
+        }).catch(async err => await log.error(err))
 
 }
 
 function logout() {
-    localStorage.setItem('token', '')
+    localStorage.removeItem('token')
     window.location = window.location.origin
 }
 
@@ -164,12 +180,15 @@ try {
             this.el.children[0].innerHTML = Math.round(percent);
         }
     })
-} catch (err) { console.log(err); }
+} catch (err) { await logger.error(err) }
 
 
 async function loadSystemInfo() {
 
-    fetch('/api/data/getSystemInfo', {
+    let log = logger.clone('Load system info')
+    await log.info('running')
+
+    await fetch('/api/data/getSystemInfo', {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`
@@ -183,7 +202,7 @@ async function loadSystemInfo() {
         return res
     }).then(res => res ? res.json() : null)
         .then(res => res ? bindSystemDataFields(res) : null)
-        .catch(err => console.log(err))
+        .catch(async err => await log.error(err))
 
 
 }
@@ -232,7 +251,7 @@ function initResizePage() {
 
     selectFile.addEventListener('change', e => {
         toggleSpinner()
-        imageFile = e.target.files[0]
+        let imageFile = e.target.files[0]
         reader.readAsDataURL(imageFile)
         resizeButton.disabled = false
         toggleSpinner()
@@ -245,6 +264,9 @@ function initResizePage() {
 
 
     resizeButton.addEventListener('click', async e => {
+        let log = logger.clone('Resize action')
+        await log.info('running')
+
         const resultListContainer = document.querySelector('#result_list_container')
         const resultList = document.createElement('ul')
         resultList.classList.add('navbar-dark', 'list-unstyled', 'results-list')
@@ -278,15 +300,15 @@ function initResizePage() {
                         resultListItem.firstElementChild.firstElementChild.src = path
                         resultList.appendChild(resultListItem)
                     })
-                    
+
                     toggleSpinner()
                     showOkBlocking()
                     window.scrollTo({ left: 0, top: document.body.scrollHeight - 50, behavior: 'smooth' })
                 }
                 else toggleSpinner()
             })
-            .catch(err => {
-                console.log(err)
+            .catch(async err => {
+                await log.error(err)
                 toggleSpinner()
             })
 
@@ -354,7 +376,6 @@ function formatBytes(bytes, decimals = 1) {
 function getCookie(name) {
     const prefName = name + '='
     const decoded = decodeURIComponent(document.cookie)
-    console.log(document.cookie);
     let res = 'nouser'
     decoded.split(';').forEach(el => {
         if (el.startsWith(prefName)) {
