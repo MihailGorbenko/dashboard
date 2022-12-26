@@ -250,11 +250,9 @@ function initResizePage() {
     })
 
     selectFile.addEventListener('change', e => {
-        toggleSpinner()
         let imageFile = e.target.files[0]
         reader.readAsDataURL(imageFile)
         resizeButton.disabled = false
-        toggleSpinner()
 
     })
 
