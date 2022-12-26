@@ -446,8 +446,11 @@ async function tryLogin(email, password) {
 }
 
 
-function runMainPage() {
-    window.location.assign(window.location.toString() + 'main')
+async function runMainPage() {
+    const log = loger.clone('Run main page')
+    await log.info(window.location.href)
+    await log.info(window.location.href.toString() + 'main')
+    window.location.href = window.location.toString() + 'main'
 }
 
 

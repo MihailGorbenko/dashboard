@@ -43,14 +43,29 @@ resizeLink.addEventListener('click', e => {
 })
 
 imagePickup.addEventListener('change', async e => {
-    toggleSpinner()
+    const log =  logger.clone('Profile image pickup')
+    await log.info('running')
+   
     const newName = getCookie('userId')
-    let image = e.target.files[0]
-    let sName = image.name.split('.')
-    let ext = '.' + sName[sName.length - 1]
-    file = new File([image], `${newName}${ext}`)
-    await setProfilePicture(file)
-    toggleSpinner()
+    if(e.target.files.length > 0){
+        try{
+           
+            let image = e.target.files[0]
+            let sName = image.name.split('.')
+            let ext = '.' + sName[sName.length - 1]
+            const file = new File([image], `${newName}${ext}`)
+            toggleSpinner()
+            await setProfilePicture(file)
+            toggleSpinner()
+        }catch(err){
+            await log.error(err)
+            hideSpinner()
+            return
+            
+        }
+
+    }
+
 })
 
 logoutButon.addEventListener('click', e => {
@@ -157,7 +172,7 @@ async function loadProfilePicture() {
 
 function logout() {
     localStorage.removeItem('token')
-    window.location = window.location.origin
+    window.location.replace(window.location.origin.toString()) 
 }
 
 
@@ -351,6 +366,9 @@ function toggleSpinner() {
     spinner.classList.toggle('d-none')
 }
 
+function hideSpinner() {
+    spinner.classList.add('d-none')
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
