@@ -249,11 +249,16 @@ function initResizePage() {
         widthField.value = e.target.value
     })
 
-    selectFile.addEventListener('change', e => {
-       
-        let imageFile = e.target.files[0]
-        reader.readAsDataURL(imageFile)
-        resizeButton.disabled = false
+    selectFile.addEventListener('input', async e => {
+        let log = logger.clone('Select file')
+        await log.info('running')
+        resizeButton.disabled = true
+
+        if(e.target.files.length > 0){
+            let imageFile = e.target.files[0]
+            reader.readAsDataURL(imageFile)
+            resizeButton.disabled = false
+        }
 
     })
 
