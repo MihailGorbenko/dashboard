@@ -250,6 +250,7 @@ function initResizePage() {
     })
 
     selectFile.addEventListener('change', e => {
+       
         let imageFile = e.target.files[0]
         reader.readAsDataURL(imageFile)
         resizeButton.disabled = false
