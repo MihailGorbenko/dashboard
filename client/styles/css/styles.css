@@ -10804,6 +10804,14 @@ body #main_content form .sign-up-form {
 }
 body #main_content form .sign-in-form {
   animation: fadeIn 1s linear;
+  cursor: pointer;
+}
+body #main_content form .sign-in-form #password_restore {
+  color: var(--bs-blue);
+  text-decoration: underline;
+}
+body #main_content form .sign-in-form #password_restore:hover {
+  color: rgba(13, 109, 253, 0.6352941176);
 }
 body #main_content form .form-label {
   font-size: 1.5em;

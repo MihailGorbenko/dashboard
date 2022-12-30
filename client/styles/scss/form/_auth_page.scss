@@ -44,6 +44,17 @@ body{
 
             .sign-in-form {
                 animation: fadeIn 1s linear;
+                cursor: pointer;
+
+                #password_restore{
+
+                    color: var(--bs-blue);
+                    text-decoration: underline;
+
+                    &:hover{
+                        color: #0d6dfda2;
+                    }                
+                }
             }
 
             .form-label{
