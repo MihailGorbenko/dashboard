@@ -12,4 +12,6 @@ RUN pip install numpy opencv-python
 EXPOSE 5000
 EXPOSE 5001
 
+VOLUME /dashboard/storage
+
 CMD ["node", "app.js"]
